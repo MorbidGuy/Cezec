@@ -844,3 +844,33 @@ footer {
     from { opacity: 0; transform: translateY(20px); }
     to { opacity: 1; transform: translateY(0); }
 }
+
+/* Menu Mobile (Hambúrguer) */
+.hamburger {
+    display: none;
+}
+
+.bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    margin: 5px auto;
+    transition: all 0.3s ease-in-out;
+    background-color: #fff;
+}
+
+@media (max-width: 768px) {
+    .nav-menu {
+        position: fixed; left: -100%; top: 70px; gap: 0; 
+        flex-direction: column; background-color: #000; 
+        width: 100%; text-align: center; transition: 0.3s; 
+        z-index: 1000; padding: 20px 0;
+    }
+    .nav-menu.active { left: 0; }
+    .nav-menu li { margin: 16px 0; }
+    .hamburger { display: block; cursor: pointer; margin-left: auto; padding-right: 20px; }
+    .hamburger.active .bar:nth-child(2) { opacity: 0; }
+    .hamburger.active .bar:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+    .hamburger.active .bar:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+    .nav-social { display: none; }
+}

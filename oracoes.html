@@ -18,6 +18,11 @@
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">Cezéc</a>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             <ul class="nav-menu">
                 <li><a href="trajetoria.html">Trajetória</a></li>
                 <li><a href="atendimentos.html">Atendimentos</a></li>
@@ -277,6 +282,13 @@ Salve o Mistério Tranca - Ruas! 🎩🖤❤️</div>
                 listContainer.classList.remove('reading-mode');
                 items.forEach(item => item.classList.remove('active'));
                 this.style.display = 'none';
+            });
+
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
             });
         });
     </script>

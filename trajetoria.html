@@ -6,12 +6,22 @@
     <title>Trajetória - Cezéc</title>
     <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
     
+    <link rel="stylesheet" href="./style.css">
+    <meta name="description" content="Conheça a trajetória do Bàbá Jonas de Sango e a história da Casa Espiritual Zé Corisco.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body class="trajetoria-bg">
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">Cezéc</a>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
             <ul class="nav-menu">
                 <li><a href="trajetoria.html">Trajetória</a></li>
                 <li><a href="atendimentos.html">Atendimentos</a></li>
@@ -78,6 +88,13 @@
             const menuItems = document.querySelectorAll('.nav-menu li a');
             menuItems.forEach(item => {
                 if(item.href === currentLocation) { item.classList.add('active'); }
+            });
+
+            const hamburger = document.querySelector(".hamburger");
+            const navMenu = document.querySelector(".nav-menu");
+            hamburger.addEventListener("click", () => {
+                hamburger.classList.toggle("active");
+                navMenu.classList.toggle("active");
             });
         });
     </script>
