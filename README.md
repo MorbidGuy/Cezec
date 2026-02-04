@@ -1,31 +1,32 @@
 # 🏛️ Site Cezec 1.0
 
-Este repositório contém o código-fonte do **Site Cezec**, uma plataforma institucional e informativa focada na divulgação de práticas espirituais, rituais e serviços religiosos. O projeto combina uma interface limpa com uma galeria visual detalhada.
+Bem-vindo ao repositório do **Site Cezec**, uma plataforma web completa desenvolvida para apresentar a identidade, os rituais e os serviços da instituição. Este projeto combina uma interface visual rica com uma navegação intuitiva entre diferentes secções.
 
 ---
 
-## 📋 Sobre o Projeto
+##  Tecnologias Utilizadas
 
-O **Site Cezec** foi desenvolvido para servir como porta de entrada digital para a instituição, permitindo que usuários conheçam os rituais, visualizem elementos sagrados e entendam os serviços oferecidos, como consultas de búzios e banhos ritualísticos.
+O projeto foi construído utilizando as bases fundamentais do desenvolvimento web:
 
-## 🚀 Tecnologias Utilizadas
+* **HTML5**: Estruturação semântica de todas as páginas do site.
+* **CSS3**: Estilização personalizada, layouts responsivos e design focado na experiência do utilizador.
+* **JavaScript (JS)**: Implementação de lógica de interatividade e dinamismo.
+* **Git**: Utilizado para o controlo de versão e organização do fluxo de trabalho.
 
-Este é um projeto focado em performance web e semântica, utilizando:
-* **HTML5**: Estruturação de conteúdo.
-* **CSS3**: Estilização moderna e responsiva.
-* **Git**: Controle de versão e histórico de alterações.
+##  Estrutura do Projeto
 
-## 📂 Estrutura de Arquivos
-
-Com base na organização atual do projeto, os arquivos estão distribuídos da seguinte forma:
+A organização dos ficheiros reflete as boas práticas de desenvolvimento:
 
 ```text
 Site Cezec 1.0/
-├── img/                       # Acervo visual do site
-│   ├── assentamentos/         # Fotos dos pontos de força e firmezas
-│   ├── banhos_ervas/          # Imagens sobre ervas e banhos rituais
-│   ├── buzios/                # Fotos relacionadas aos jogos de oráculos
-│   ├── baba_jonas.jpeg        # Identidade visual (Liderança)
-│   └── bate_cabeça.jpeg       # Registros de rituais específicos
-├── index.html                 # Página principal (Landing Page)
-└── .git/                      # Configurações de versionamento
+├── index.html           # Página principal (Home)
+├── *.html               # Outras páginas secundárias do site
+├── css/                 # Ficheiros de estilização (.css)
+├── js/                  # Lógica e scripts de interatividade (.js)
+├── img/                 # Acervo visual organizado
+│   ├── assentamentos/   # Fotografias dos pontos de força
+│   ├── banhos_ervas/    # Imagens de elementos rituais e ervas
+│   ├── buzios/          # Secção dedicada ao jogo de búzios
+│   ├── baba_jonas.jpeg  # Imagem institucional (Liderança)
+│   └── bate_cabeça.jpeg # Registos de rituais específicos
+└── .git/                # Histórico de versões
