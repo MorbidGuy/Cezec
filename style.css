@@ -43,13 +43,12 @@ body {
     animation: fadeIn 0.8s ease-in-out;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    background-color: #121212; /* Cor de fundo de segurança */
-    /* Segurança extra via CSS */
+    background-color: #121212; 
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
     user-select: none;
-    overflow-x: hidden; /* Evita rolagem lateral indesejada */
+    overflow-x: hidden; 
 }
 
 body.trajetoria-bg {
@@ -69,7 +68,7 @@ body.oracoes-bg {
     min-height: 100vh;
 }
 
-/* Regra global para imagens responsivas */
+
 img, video, iframe {
     max-width: 100%;
     height: auto;
@@ -531,7 +530,7 @@ footer {
     transform: scale(1.1);
 }
 
-/* Estilos do Chat Widget (Movido do JS para CSS) */
+
 #chat-widget {
     position: fixed;
     bottom: 20px;
@@ -539,10 +538,10 @@ footer {
     width: 370px;
     max-width: 90vw;
     max-height: 85vh;
-    background-color: #ffffff; /* Fundo branco conforme original do JS */
+    background-color: #ffffff; 
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    display: none; /* Começa oculto */
+    display: none;
     flex-direction: column;
     z-index: 1000;
     overflow: hidden;
@@ -662,7 +661,6 @@ footer {
     justify-content: center;
 }
 
-/* Animação de digitação do chat */
 .typing-dots { display: inline-block; padding: 0 5px; }
 .typing-dots span {
     display: inline-block; width: 6px; height: 6px; margin: 0 2px;
@@ -677,12 +675,15 @@ footer {
    RESPONSIVIDADE GERAL (TUDO AQUI)
    ========================================= */
 @media (max-width: 768px) {
-    /* Ajustes de Navbar */
     .navbar {
-        padding: 0.5rem 1rem; /* Reduz a altura da barra no mobile */
+        padding: 0.4rem 0.8rem; 
+        justify-content: space-between;
     }
 
-    /* Ajustes de Texto Hero */
+    .logo {
+        font-size: 1.4rem; 
+    }
+
     .hero-content h1 {
         font-size: 2.5rem;
     }
@@ -690,14 +691,12 @@ footer {
         font-size: 1.1rem;
     }
     
-    /* Ajustes de Background (Correção para Mobile) */
     body.trajetoria-bg, body.oracoes-bg, #servicos, #trabalhos, #contato, .hero {
         background-attachment: scroll;
         background-position: center;
         background-size: cover;
     }
 
-    /* Ajustes de Grids e Flex */
     .trajetoria-content, 
     .servicos-grid, 
     .trabalhos-gallery, 
@@ -712,7 +711,6 @@ footer {
         margin-bottom: 20px;
     }
 
-    /* Chat Widget Fullscreen no Mobile */
     #chat-widget {
         width: 100%;
         height: 100%;
@@ -729,11 +727,10 @@ footer {
     }
 
     footer {
-        padding: 1.5rem 1rem; /* Diminui o rodapé no mobile */
+        padding: 1.5rem 1rem; 
     }
 }
 
-/* Estilos Específicos de Orações (Movido do HTML) */
 .oracoes-list { transition: all 0.5s ease; }
 
 .oracao-item { 
@@ -838,7 +835,6 @@ footer {
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Menu Mobile (Hambúrguer) */
 .hamburger {
     display: none;
 }
@@ -854,11 +850,11 @@ footer {
 
 @media (max-width: 768px) {
     .nav-menu {
-        position: fixed; left: -100%; top: 45px; /* Ajustado para nova altura da navbar */ gap: 0;
+        position: fixed; left: -100%; top: 45px;  gap: 0;
         flex-direction: column;
-        background-color: rgba(18, 18, 18, 0.9); /* Fundo com transparência */
+        background-color: rgba(18, 18, 18, 0.9); 
         width: 100%; text-align: center; transition: 0.3s; 
-        backdrop-filter: blur(5px); /* Efeito de desfoque */
+        backdrop-filter: blur(5px); 
         z-index: 1000; padding: 20px 0;
     }
     .nav-menu.active { left: 0; }
