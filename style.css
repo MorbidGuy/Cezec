@@ -679,20 +679,9 @@ footer {
 @media (max-width: 768px) {
     /* Ajustes de Navbar */
     .navbar {
-        flex-direction: column;
-        padding: 15px;
-        gap: 15px;
+        padding: 0.5rem 1rem; /* Reduz a altura da barra no mobile */
     }
-    .nav-menu {
-        flex-direction: column;
-        gap: 10px;
-        text-align: center;
-        margin-left: 0;
-    }
-    .nav-menu li {
-        margin: 5px 0;
-    }
-    
+
     /* Ajustes de Texto Hero */
     .hero-content h1 {
         font-size: 2.5rem;
@@ -737,6 +726,10 @@ footer {
     .whatsapp-float {
         bottom: 20px;
         right: 20px;
+    }
+
+    footer {
+        padding: 1.5rem 1rem; /* Diminui o rodapé no mobile */
     }
 }
 
@@ -861,9 +854,11 @@ footer {
 
 @media (max-width: 768px) {
     .nav-menu {
-        position: fixed; left: -100%; top: 70px; gap: 0; 
-        flex-direction: column; background-color: #000; 
+        position: fixed; left: -100%; top: 45px; /* Ajustado para nova altura da navbar */ gap: 0;
+        flex-direction: column;
+        background-color: rgba(18, 18, 18, 0.9); /* Fundo com transparência */
         width: 100%; text-align: center; transition: 0.3s; 
+        backdrop-filter: blur(5px); /* Efeito de desfoque */
         z-index: 1000; padding: 20px 0;
     }
     .nav-menu.active { left: 0; }
