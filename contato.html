@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contato - Cezéc</title>
+    <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
+    
+    <link rel="stylesheet" href="./style.css">
+    <meta name="description" content="Entre em contato com a Casa Espiritual Zé Corisco. Agende sua consulta pelo WhatsApp ou visite-nos.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">Cezéc</a>
+            <ul class="nav-menu">
+                <li><a href="trajetoria.html">Trajetória</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+                <li><a href="trabalhos.html">Trabalhos</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/cezecoficial/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="contato" class="dark-section section-padding">
+            <div class="container">
+                <h2>Contato e Agendamento</h2>
+                <p>Entre em contato para agendar sua consulta ou saber mais sobre nossos trabalhos.</p>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" class="cta-button-main">
+                    <i class="fab fa-whatsapp"></i> Agendar pelo WhatsApp
+                </a>
+                
+                <div class="contato-wrapper">
+                    <div class="contato-card">
+                        <div class="contato-item">
+                            <div class="contato-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contato-details">
+                                <h3>Localização</h3>
+                                <p>São Paulo - SP<br><small>Vila Cruzeiro Zona Sul de São Paulo</small></p>
+                            </div>
+                        </div>
+                        
+                        <div class="contato-item">
+                            <div class="contato-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contato-details">
+                                <h3>Telefone / WhatsApp</h3>
+                                <p>(11) 95834-6854</p>
+                            </div>
+                        </div>
+
+                        <div class="contato-item">
+                            <div class="contato-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contato-details">
+                                <h3>Horário de Atendimento</h3>
+                                <p>Sem Dia Definido<br>Aguarde até ter retorno</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <span>Atendimento Cezéc</span>
+            <button id="close-chat" aria-label="Fechar chat">x</button>
+        </div>
+        <div id="chat-body" class="chat-body"></div>
+        <div class="chat-input-area" id="chat-input-area" style="display: none;">
+            <input type="text" id="chat-input" placeholder="Digite aqui...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <button id="chat-toggle" class="whatsapp-float" aria-label="Abrir chat">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+
+    <footer>
+        <p>&copy; 2026 Cezéc - Casa Espiritual Zé Corisco. Todos os direitos reservados.<br>
+        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
+    </footer>
+
+    <script src="chat.js"></script>
+    <script src="security.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentLocation = location.href;
+            const menuItems = document.querySelectorAll('.nav-menu li a');
+            menuItems.forEach(item => {
+                if(item.href === currentLocation) { item.classList.add('active'); }
+            });
+        });
+    </script>
+
+</body>
+</html>

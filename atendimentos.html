@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Atendimentos - Cezéc</title>
+    <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
+    
+    <link rel="stylesheet" href="./style.css">
+    <meta name="description" content="Agende seus atendimentos no Cezéc. Consultas espirituais, Jogo de Búzios de Ifá, Limpezas e Assentamentos de Orixás.">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">Cezéc</a>
+            <ul class="nav-menu">
+                <li><a href="trajetoria.html">Trajetória</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+                <li><a href="trabalhos.html">Trabalhos</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/cezecoficial/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="servicos" class="section-padding dark-section">
+            <div class="container">
+                <h2>Principais Serviços</h2>
+                <div class="servicos-grid">
+                    <div class="servico-item">
+                        <i class="fas fa-comments"></i>
+                        <h3>Consultas Espirituais</h3>
+                        <p>Atendimentos particulares para direcionamento e aconselhamento. Giras abertas ao público para desenvolvimento e caridade.</p>
+                    </div>
+                    <div class="servico-item">
+                        <i class="fas fa-dice"></i>
+                        <h3>Jogo de Búzios de Ifá</h3>
+                        <p>Leitura sagrada do oráculo de Ifá para desvendar caminhos, responder questões e orientar decisões importantes na sua vida.</p>
+                    </div>
+                    <div class="servico-item">
+                        <i class="fas fa-hands-helping"></i>
+                        <h3>Trabalhos Espirituais</h3>
+                        <p>Realização de trabalhos para diversas finalidades: amor, prosperidade, saúde, limpeza espiritual e abertura de caminhos.</p>
+                    </div>
+                    <div class="servico-item">
+                        <i class="fas fa-chess-rook"></i>
+                        <h3>Assentamentos</h3>
+                        <p>Confecção e cuidados com assentamentos de Orixás e Entidades, estabelecendo um ponto de força e conexão espiritual.</p>
+                    </div>
+                    <div class="servico-item">
+                        <i class="fas fa-leaf"></i>
+                        <h3>Banhos de Ervas</h3>
+                        <p>Preparação de banhos de ervas para purificação, limpeza e equilíbrio energético.</p>
+                    </div>
+                    <div class="servico-item">
+                        <i class="fas fa-hand-holding-heart"></i>
+                        <h3>Oferendas</h3>
+                        <p>Preparação e entrega de oferendas para conexão com o sagrado e agradecimento às entidades e Orixás.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <span>Atendimento Cezéc</span>
+            <button id="close-chat" aria-label="Fechar chat">×</button>
+        </div>
+        <div id="chat-body" class="chat-body"></div>
+        <div class="chat-input-area" id="chat-input-area" style="display: none;">
+            <input type="text" id="chat-input" placeholder="Digite aqui...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <button id="chat-toggle" class="whatsapp-float" aria-label="Abrir chat">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+
+    <footer>
+        <p>&copy; 2026 Cezéc - Casa Espiritual Zé Corisco. Todos os direitos reservados.<br>
+        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
+    </footer>
+
+    <script src="chat.js"></script>
+    <script src="security.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentLocation = location.href;
+            const menuItems = document.querySelectorAll('.nav-menu li a');
+            menuItems.forEach(item => {
+                if(item.href === currentLocation) { item.classList.add('active'); }
+            });
+        });
+    </script>
+
+</body>
+</html>

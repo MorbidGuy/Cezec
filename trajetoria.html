@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trajetória - Cezéc</title>
+    <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
+</head>
+<body class="trajetoria-bg">
+    <header>
+        <nav class="navbar">
+            <a href="index.html" class="logo">Cezéc</a>
+            <ul class="nav-menu">
+                <li><a href="trajetoria.html">Trajetória</a></li>
+                <li><a href="atendimentos.html">Atendimentos</a></li>
+                <li><a href="trabalhos.html">Trabalhos</a></li>
+                <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="contato.html">Contato</a></li>
+            </ul>
+            <div class="nav-social">
+                <a href="https://www.instagram.com/cezecoficial/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <section id="trajetoria" class="section-padding">
+            <div class="container">
+                <h2>Trajetória do Bàbá Jonas</h2>
+                <div class="trajetoria-content">
+                    <img src="img/baba_jonas.jpeg" alt="Bàbá Jonas de Sango" class="trajetoria-img" loading="lazy">
+                    <div class="trajetoria-text">
+                        <p>
+                            Com mais de trinta anos de experiência na caminhada espiritual, Jonas Pupo, outorgado Doutor Honoris Causa, é sacerdote dedicado ao exercício da fé e ao cuidado espiritual. Atua como Pai de Santo, Babalawo, Babalorixá e Tata de Kimbanda, com formação sólida e compromisso com os fundamentos das tradições que representa.
+                        </p>
+                        <p>
+                            Sua atuação é pautada no acolhimento, na escuta responsável e na orientação espiritual consciente, oferecendo suporte a todos que buscam equilíbrio, direção e fortalecimento espiritual.
+                        </p>
+                        <p>
+                            Desenvolve trabalhos espirituais realizados com seriedade e respeito, entre eles ebós, assentamentos e banhos espirituais, sempre guiados pelo compromisso com a espiritualidade verdadeira.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="chat-widget" class="chat-widget">
+        <div class="chat-header">
+            <span>Atendimento Cezéc</span>
+            <button id="close-chat" aria-label="Fechar chat">×</button>
+        </div>
+        <div id="chat-body" class="chat-body"></div>
+        <div class="chat-input-area" id="chat-input-area" style="display: none;">
+            <input type="text" id="chat-input" placeholder="Digite aqui...">
+            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <button id="chat-toggle" class="whatsapp-float" aria-label="Abrir chat">
+        <i class="fab fa-whatsapp"></i>
+    </button>
+
+    <footer>
+        <p>&copy; 2026 Cezéc - Casa Espiritual Zé Corisco. Todos os direitos reservados.<br>
+        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
+    </footer>
+
+    <script src="chat.js"></script>
+    <script src="security.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const currentLocation = location.href;
+            const menuItems = document.querySelectorAll('.nav-menu li a');
+            menuItems.forEach(item => {
+                if(item.href === currentLocation) { item.classList.add('active'); }
+            });
+        });
+    </script>
+
+</body>
+</html>
