@@ -114,7 +114,7 @@ h2 {
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
-    border-bottom: 1px solid #D9042930;
+    border-bottom: 1px solid #D90429;
 }
 
 .logo {
@@ -285,7 +285,7 @@ main .section-padding {
     text-align: center;
     padding: 2rem;
     background-color: #1f1f1f;
-    border: 1px solid #D9042930;
+    border: 1px solid #D90429;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -337,7 +337,7 @@ main .section-padding {
     background-color: #1f1f1f;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid #D9042930;
+    border: 1px solid #D90429;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -408,7 +408,7 @@ main .section-padding {
     backdrop-filter: blur(5px);
     padding: 3rem;
     border-radius: 15px;
-    border: 1px solid #D9042930;
+    border: 1px solid #D90429;
     width: 100%;
     max-width: 700px;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -503,7 +503,7 @@ footer {
     text-align: center;
     padding: 2rem;
     background-color: #1f1f1f;
-    border-top: 1px solid #D9042930;
+    border-top: 1px solid #D90429;
 }
 
 .whatsapp-float {
@@ -745,7 +745,7 @@ footer {
 
 .oracao-item { 
     background: #1f1f1f; 
-    border: 1px solid #D9042930; 
+    border: 1px solid #D90429; 
     border-radius: 8px; 
     margin-bottom: 15px; 
     padding: 25px; 
