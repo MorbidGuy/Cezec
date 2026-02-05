@@ -68,7 +68,6 @@ body.oracoes-bg {
     min-height: 100vh;
 }
 
-/* Regra global para imagens responsivas */
 img, video, iframe {
     max-width: 100%;
     height: auto;
@@ -428,7 +427,6 @@ main .section-padding {
     padding-bottom: 1rem;
 }
 
-/* Segurança para imagens */
 img {
     pointer-events: none;
     -webkit-user-drag: none;
@@ -530,7 +528,6 @@ footer {
     transform: scale(1.1);
 }
 
-/* Estilos do Chat Widget (Movido do JS para CSS) */
 #chat-widget {
     position: fixed;
     bottom: 20px;
@@ -538,10 +535,10 @@ footer {
     width: 370px;
     max-width: 90vw;
     max-height: 85vh;
-    background-color: #ffffff; /* Fundo branco conforme original do JS */
+    background-color: #ffffff; 
     border-radius: 15px;
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
-    display: none; /* Começa oculto */
+    display: none; 
     flex-direction: column;
     z-index: 1000;
     overflow: hidden;
@@ -661,7 +658,6 @@ footer {
     justify-content: center;
 }
 
-/* Animação de digitação do chat */
 .typing-dots { display: inline-block; padding: 0 5px; }
 .typing-dots span {
     display: inline-block; width: 6px; height: 6px; margin: 0 2px;
