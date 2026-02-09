@@ -51,17 +51,15 @@ body {
 }
 
 body.trajetoria-bg {
-    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('img/descarrego.jpeg') no-repeat center center/cover;
-    background-attachment: fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('img/descarrego.jpeg') no-repeat fixed center center/cover;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
 
 body.oracoes-bg {
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/bate_cabeça.jpeg') no-repeat center center/cover;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/bate_cabeça.jpeg') no-repeat fixed center center/cover;
     background-color: #121212;
-    background-attachment: fixed;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
@@ -263,13 +261,11 @@ main .section-padding {
 }
 
 #servicos {
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/conga.jpeg') no-repeat center center/cover;
-    background-attachment: fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/conga.jpeg') no-repeat fixed center center/cover;
 }
 
 #trabalhos {
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/oferenda.jpeg') no-repeat center center/cover;
-    background-attachment: fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/oferenda.jpeg') no-repeat fixed center center/cover;
 }
 
 .servicos-grid {
@@ -383,8 +379,7 @@ main .section-padding {
 
 #contato {
     text-align: center;
-    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/conga2.jpeg') no-repeat center center/cover;
-    background-attachment: fixed;
+    background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/conga2.jpeg') no-repeat fixed center center/cover;
 }
 
 #contato p {
@@ -684,12 +679,12 @@ footer {
     }
     
     body.trajetoria-bg, body.oracoes-bg, #servicos, #trabalhos, #contato, .hero {
-        background-attachment: scroll;
-        background-position: center;
-        background-size: cover;
+        background-attachment: scroll; 
+        background-size: 100% auto;
+        background-position: top center;
     }
 
-    .trajetoria-content, 
+    .trajetoria-content,
     .servicos-grid, 
     .trabalhos-gallery, 
     .contato-wrapper {
