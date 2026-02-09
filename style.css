@@ -109,6 +109,7 @@ h2 {
     top: 0;
     z-index: 1000;
     backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px); 
     border-bottom: 1px solid #D90429;
 }
 
@@ -186,7 +187,7 @@ h2 {
 }
 
 .hero-content h1 {
-    font-size: 5.5rem; 
+    font-size: 4.5rem; 
     margin-bottom: 1.5rem;
     line-height: 1.1;
     text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
@@ -194,7 +195,7 @@ h2 {
 }
 
 .hero-content p {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     margin-bottom: 2rem;
     animation: slideUp 1s ease-out 0.6s backwards;
     font-family: 'Cormorant', serif;
@@ -353,7 +354,7 @@ main .section-padding {
 .trabalho-images img {
     width: 100%;
     max-width: 450px;
-    height: 350px;
+    height: auto;
     object-fit: cover;
     border-radius: 8px;
     border: 2px solid #D90429;
@@ -661,27 +662,39 @@ footer {
    RESPONSIVIDADE GERAL (TUDO AQUI)
    ========================================= */
 @media (max-width: 768px) {
+    h2 {
+        font-size: 2.2rem;
+    }
+
+    .container {
+        padding: 0 1rem;
+    }
+
+    .section-padding {
+        padding: 4rem 0;
+    }
+
     .navbar {
         padding: 0.4rem 0.8rem;
         justify-content: space-between;
     }
 
     .logo {
-        font-size: 1.4rem;
+        font-size: 1.5rem;
         order: 1;
     }
 
     .hero-content h1 {
-        font-size: 2.5rem;
+        font-size: 2.8rem;
     }
     .hero-content p {
-        font-size: 1.1rem;
+        font-size: 1.2rem;
     }
     
     body.trajetoria-bg, body.oracoes-bg, #servicos, #trabalhos, #contato, .hero {
         background-attachment: scroll; 
-        background-size: 100% auto;
-        background-position: top center;
+        background-size: cover;
+        background-position: center center;
     }
 
     .trajetoria-content,
@@ -695,7 +708,7 @@ footer {
     .trajetoria-img {
         width: 200px;
         height: 200px;
-        margin-bottom: 20px;
+        margin: 0 auto 20px;
     }
 
     #chat-widget {
