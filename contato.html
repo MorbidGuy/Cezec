@@ -8,6 +8,7 @@
     
     <link rel="stylesheet" href="./style.css">
     <meta name="description" content="Entre em contato com a Casa Espiritual Zé Corisco. Agende sua consulta pelo WhatsApp ou visite-nos.">
+    <meta name="keywords" content="Cezec, Cezéc, Contato, WhatsApp, Localização, Agendamento, Casa Espiritual Zé Corisco">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -39,6 +40,7 @@
                 <li><a href="atendimentos.html">Atendimentos</a></li>
                 <li><a href="trabalhos.html">Trabalhos</a></li>
                 <li><a href="oracoes.html">Orações</a></li>
+                <li><a href="doacoes.html">Doações</a></li>
                 <li><a href="contato.html">Contato</a></li>
             </ul>
             <div class="nav-social">
@@ -76,7 +78,10 @@
                             </div>
                             <div class="contato-details">
                                 <h3>Telefone / WhatsApp</h3>
-                                <p>(11) 95834-6854</p>
+                                <div style="display: flex; align-items: center; gap: 10px;">
+                                    <p id="phone-text" style="margin: 0;">(11) 95834-6854</p>
+                                    <button id="btn-copy-phone" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; border-radius: 5px; padding: 2px 8px; cursor: pointer; font-size: 0.9rem;" title="Copiar Telefone"><i class="fas fa-copy"></i></button>
+                                </div>
                             </div>
                         </div>
 
@@ -89,21 +94,6 @@
                                 <p>Sem Dia Definido<br>Aguarde até ter retorno</p>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section id="doacoes" class="section-padding" style="background-color: #1a1a1a; color: #fff; text-align: center;">
-            <div class="container">
-                <h2>Faça uma Doação</h2>
-                <p style="max-width: 600px; margin: 0 auto 20px auto;">Ajude a manter a Casa Espiritual Zé Corisco. Sua contribuição é fundamental para continuarmos nossos trabalhos de caridade.</p>
-                
-                <div class="pix-container" style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 15px; display: inline-block; margin-top: 20px;">
-                    <img src="img/qrcode_pix.jpg" alt="QR Code Pix" style="max-width: 200px; border-radius: 10px; margin-bottom: 15px;">
-                    <div class="pix-key">
-                        <p style="margin-bottom: 5px; font-size: 0.9rem; opacity: 0.8;">Chave Pix:</p>
-                        <p style="font-size: 1.2rem; font-weight: bold; color: #d4af37;">CHAVE-PIX-AQUI</p>
                     </div>
                 </div>
             </div>
@@ -147,6 +137,17 @@
                 hamburger.classList.toggle("active");
                 navMenu.classList.toggle("active");
             });
+
+            const btnCopyPhone = document.getElementById("btn-copy-phone");
+            if(btnCopyPhone){
+                btnCopyPhone.addEventListener("click", () => {
+                    const phoneText = document.getElementById("phone-text").innerText;
+                    navigator.clipboard.writeText(phoneText).then(() => {
+                        btnCopyPhone.innerHTML = '<i class="fas fa-check"></i>';
+                        setTimeout(() => btnCopyPhone.innerHTML = '<i class="fas fa-copy"></i>', 2000);
+                    }).catch(err => alert("Copie o telefone: " + phoneText));
+                });
+            }
         });
     </script>
 
