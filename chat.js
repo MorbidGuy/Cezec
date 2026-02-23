@@ -24,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const sendMsgBtn = document.getElementById('send-chat-message') || document.getElementById('send-btn');
     const inputArea = document.getElementById('chat-input-area');
 
+    // Garante que o chat comece oculto via JS (segurança caso o CSS falhe)
+    if (chatWidget) {
+        chatWidget.style.display = 'none';
+    }
+
     if (!openChatBtn) return;
 
     let chatIsOpen = false;

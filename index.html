@@ -5,13 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cezéc - Casa Espiritual Zé Corisco</title>
     <meta name="google-site-verification" content="gBKNddx1UuwJ_uHSD_-En0dbbc8q59jp79epQxOdoqQ">
-    <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
     
+    <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
     <link rel="stylesheet" href="./style.css">
+    
     <meta name="description" content="Cezéc - Casa Espiritual Zé Corisco. Orientação espiritual, jogo de búzios e trabalhos com seriedade sob a liderança de Bàbá Jonas de Sango.">
     <meta property="og:title" content="Cezéc - Casa Espiritual Zé Corisco">
     <meta property="og:description" content="Orientação espiritual, jogo de búzios e trabalhos com seriedade sob a liderança de Bàbá Jonas de Sango.">
-    <meta property="og:image" content="img/logo.jpeg">
     <meta property="og:type" content="website">
     <meta name="keywords" content="Cezec, Cezéc, Casa Espiritual Zé Corisco, Bàbá Jonas de Sango, Espiritualidade, Religião, Consulta Espiritual">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -57,28 +57,22 @@
     </header>
 
     <main>
-        <section id="inicio" class="hero">
+        <section class="hero">
             <div class="hero-content">
                 <h1>Casa Espiritual Zé Corisco</h1>
-                <p>Com Bàbá Jonas de Sango</p>
-                <p class="hero-description">A CEZEC, casa da matriarca Dona Rosa Caveira, atua desde 2022 com firmeza, fundamento e direcionamento espiritual. Seus trabalhos são conduzidos por guias chefiados por Seu Zé Corisco, levando orientação, força, e clareza nos caminhos.</p>
+                <p>Fé, Caridade e Acolhimento</p>
+                <p class="hero-description">
+                    Um terreiro de portas abertas para todos que buscam orientação, equilíbrio e fortalecimento espiritual. Conheça nosso trabalho e nossa fé.
+                </p>
+                <a href="contato.html" class="cta-button-main">
+                    <i class="fab fa-whatsapp"></i> Agende sua Consulta
+                </a>
             </div>
         </section>
     </main>
 
-    <div id="chat-widget" class="chat-widget">
-        <div class="chat-header">
-            <span>Atendimento Cezéc</span>
-            <button id="close-chat" aria-label="Fechar chat">×</button>
-        </div>
-        <div id="chat-body" class="chat-body"></div>
-        <div class="chat-input-area" id="chat-input-area" style="display: none;">
-            <input type="text" id="chat-input" placeholder="Digite aqui...">
-            <button id="send-btn"><i class="fas fa-paper-plane"></i></button>
-        </div>
-    </div>
-
-    <button id="chat-toggle" class="whatsapp-float" aria-label="Abrir chat">
+    <!-- O botão flutuante do WhatsApp que abre o chat -->
+    <button id="whatsapp-float" class="whatsapp-float" aria-label="Abrir chat">
         <i class="fab fa-whatsapp"></i>
     </button>
 
@@ -87,22 +81,19 @@
         <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
     </footer>
 
+    <!-- Scripts no final do body para melhor performance -->
     <script src="chat.js"></script>
     <script src="security.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const currentLocation = location.href;
-            const menuItems = document.querySelectorAll('.nav-menu li a');
-            menuItems.forEach(item => {
-                if(item.href === currentLocation) { item.classList.add('active'); }
-            });
-
             const hamburger = document.querySelector(".hamburger");
             const navMenu = document.querySelector(".nav-menu");
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-            });
+            if(hamburger && navMenu) {
+                hamburger.addEventListener("click", () => {
+                    hamburger.classList.toggle("active");
+                    navMenu.classList.toggle("active");
+                });
+            }
         });
     </script>
 

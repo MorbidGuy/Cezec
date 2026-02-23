@@ -1,70 +1,121 @@
-/**
- * Script de Proteção de Interface - v2.0
- * Finalidade: Dificultar cópia e inspeção básica.
- */
-(function() {
-    'use strict';
+(function(){
 
-    // 1. Bloqueio de Menu de Contexto (Clique Direito)
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+// =============================
+// CONFIGURAÇÃO
+// =============================
 
-    // 2. Bloqueio de Atalhos de Teclado
-    document.addEventListener('keydown', (e) => {
-        // Bloqueia F12
-        if (e.key === 'F12') {
-            e.preventDefault();
-        }
+const _consoleMsg = "🚫 Acesso negado.\nSem acesso ou privilégios para dar continuidade.";
+const _overlayMsg = "Acesso Negado: tentativa de atividades suspeitas detectada.";
+let _locked = false;
 
-        // Bloqueia Ctrl+Shift+I, J, C (DevTools)
-        if (e.ctrlKey && e.shiftKey && ['I', 'J', 'C'].includes(e.key.toUpperCase())) {
-            e.preventDefault();
-        }
+// =============================
+// FUNÇÃO DE BLOQUEIO VISUAL
+// =============================
 
-        // Bloqueia Ctrl+U (Ver Código Fonte) e Ctrl+S (Salvar)
-        if (e.ctrlKey && ['u', 's'].includes(e.key.toLowerCase())) {
-            e.preventDefault();
-        }
+function _deny(){
+    if(_locked) return;
+    _locked = true;
 
-        // Bloqueia Ctrl+C e Ctrl+V (Opcional - remova se quiser permitir copiar)
-        if (e.ctrlKey && ['c', 'v', 'a'].includes(e.key.toLowerCase())) {
-            e.preventDefault();
+    const overlay = document.createElement("div");
+    overlay.style.cssText = `
+        position:fixed;
+        inset:0;
+        background:#000;
+        color:#ff0000;
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        font-family:monospace;
+        font-size:22px;
+        text-align:center;
+        z-index:999999;
+    `;
+    overlay.innerText = _overlayMsg;
+    document.body.appendChild(overlay);
+}
+
+// =============================
+// MENSAGEM NO CONSOLE
+// =============================
+
+function _consoleWarning(){
+    console.clear();
+    console.log("%c" + _consoleMsg,
+        "color:red;font-size:16px;font-weight:bold;");
+}
+
+_consoleWarning();
+
+// =============================
+// BLOQUEIO DE ATALHOS
+// =============================
+
+document.addEventListener("contextmenu", e => {
+    e.preventDefault();
+    _deny();
+});
+
+document.addEventListener("keydown", function(e){
+
+    if(e.key === "F12"){
+        e.preventDefault();
+        _deny();
+    }
+
+    if(e.ctrlKey && e.shiftKey &&
+       ["I","J","C"].includes(e.key.toUpperCase())){
+        e.preventDefault();
+        _deny();
+    }
+
+    if(e.ctrlKey &&
+       ["u","s","p","f","a","c"].includes(e.key.toLowerCase())){
+        e.preventDefault();
+        _deny();
+    }
+});
+
+// =============================
+// DETECTOR DEVTOOLS (tamanho)
+// =============================
+
+setInterval(function(){
+    if(window.outerWidth - window.innerWidth > 160 ||
+       window.outerHeight - window.innerHeight > 160){
+        _deny();
+    }
+}, 1000);
+
+// =============================
+// ANTI DEBUGGER (pausa)
+// =============================
+
+setInterval(function(){
+    const start = performance.now();
+    debugger;
+    const end = performance.now();
+
+    if(end - start > 100){
+        _deny();
+    }
+}, 1000);
+
+// =============================
+// DETECTOR DE CONSOLE
+// =============================
+
+(function(){
+    const element = new Image();
+    Object.defineProperty(element, 'id', {
+        get: function(){
+            _consoleWarning();
+            _deny();
         }
     });
 
-    // 3. Detecção de Debugger (Anti-Inspecionar)
-    // Se o console for aberto, o 'debugger' causa um lag que limpa a tela
-    setInterval(() => {
-        const tempoInicial = performance.now();
-        debugger; 
-        const tempoFinal = performance.now();
-        
-        if (tempoFinal - tempoInicial > 100) {
-            console.clear();
-            console.warn("%cACESSO RESTRITO", "color: red; font-size: 20px; font-weight: bold;");
-        }
+    setInterval(function(){
+        console.log(element);
     }, 1000);
+})();
 
-    // 4. Bloqueio de Seleção e Arraste (Visual)
-    document.addEventListener('selectstart', (e) => e.preventDefault());
-    document.addEventListener('dragstart', (e) => e.preventDefault());
-
-    // 5. Injeção de CSS para reforçar o bloqueio de seleção
-    const style = document.createElement('style');
-    style.textContent = `
-        /* Desativa seleção de texto em todo o corpo */
-        body {
-            -webkit-user-select: none;
-            -moz-user-select: none;
-            -ms-user-select: none;
-            user-select: none;
-        }
-        /* Protege imagens de serem arrastadas ou salvas facilmente */
-        img {
-            pointer-events: none;
-            -webkit-user-drag: none;
-        }
-    `;
-    document.head.appendChild(style);
-
-    console.clear();
 })();
