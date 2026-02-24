@@ -2,67 +2,73 @@
 
 ## 📄 Sobre o Projeto
 
-O **Site Cezec 1.0** é uma plataforma web desenvolvida para ser a presença digital oficial da instituição. O objetivo principal deste projeto é apresentar a identidade, os rituais sagrados e os serviços oferecidos (como jogo de búzios e banhos de ervas) de forma respeitosa, visualmente rica e acessível.
+O **Site Cezec 1.0** é a presença digital oficial da Casa Espiritual Zé Corisco. O projeto foi desenvolvido para centralizar informações sobre a trajetória da casa, atendimentos espirituais, trabalhos realizados e orações, oferecendo um canal direto de comunicação via WhatsApp e redes sociais.
 
-Mais do que um site informativo, o projeto busca transmitir a atmosfera do local através de um design cuidadoso e uma galeria de imagens organizada, servindo como ponto de contato entre a liderança (Baba Jonas) e a comunidade.
+A estrutura foi pensada para ser leve, direta e acessível, utilizando tecnologias web padrão para garantir compatibilidade e desempenho, com foco na conversão e contato direto.
 
 ---
 
-## 🚀 Funcionalidades e Seções
+## 🚀 Funcionalidades e Estrutura
 
-O site foi estruturado para guiar o visitante através de uma jornada de conhecimento:
+O site é composto por diversas páginas interligadas que cobrem os pilares da instituição:
 
-### 🏠 Página Principal (Home)
-- **Apresentação Institucional**: Visão geral sobre o Cezec e sua missão.
-- **Destaques Visuais**: Banners rotativos ou estáticos que mostram a beleza do espaço.
+### 🏠 Página Principal (`index.html`)
+- **Apresentação**: Visão geral sobre a Casa Espiritual Zé Corisco.
+- **Navegação Central**: Menu responsivo com acesso a todas as áreas.
+- **Integração Social**: Links diretos para Instagram, TikTok e WhatsApp.
+- **Botão Flutuante**: Acesso rápido ao chat via WhatsApp (`chat.js`).
 
-### 🌿 Serviços e Rituais
-- **Jogo de Búzios**: Seção dedicada à explicação e agendamento/contato para consultas.
-- **Banhos de Ervas**: Catálogo visual e explicativo sobre os tipos de banhos e suas finalidades.
-- **Assentamentos**: Galeria respeitosa demonstrando os pontos de força da casa.
+### 🌿 Seções do Site (Páginas)
+- **Trajetória (`trajetoria.html`)**: História e missão da casa.
+- **Atendimentos (`atendimentos.html`)**: Informações sobre consultas e horários.
+- **Trabalhos (`trabalhos.html`)**: Detalhes sobre os rituais e serviços espirituais.
+- **Orações (`oracoes.html`)**: Espaço dedicado à fé e preces.
+- **Doações (`doacoes.html`)**: Informações sobre como contribuir com a casa.
+- **Contato (`contato.html`)**: Formulário e dados de contato.
 
-### 🖼️ Galeria Multimídia
-- **Acervo Fotográfico**: Organização de imagens de rituais (como o "bate cabeça") e liderança.
-- **Otimização Visual**: Exibição de imagens em alta qualidade sem comprometer o layout.
+### 🛡️ Scripts e Segurança
+- **Chat (`chat.js`)**: Gerencia a lógica do botão flutuante de WhatsApp.
+- **Segurança (`security.js`)**: Implementa medidas de proteção no frontend.
+- **Analytics**: Integração com Google Tag Manager para métricas de acesso.
 
 ---
 
 ## 💡 Desafios, Problemas e Soluções
 
-Durante o desenvolvimento do front-end deste projeto, enfrentamos desafios específicos relacionados à apresentação de conteúdo visual e responsividade. Abaixo detalhamos como cada obstáculo foi superado:
+Durante o desenvolvimento do front-end deste projeto, enfrentamos desafios específicos relacionados à integração de scripts externos, responsividade e segurança. Abaixo detalhamos como cada obstáculo foi superado:
 
-### 1. Responsividade e Layout Fluido
-*   **O Problema**: O site precisava ser acessível tanto em desktops grandes quanto em celulares, sem que as imagens dos rituais perdessem o enquadramento ou o texto ficasse ilegível.
-*   **A Solução**: Utilizamos **Media Queries** do CSS3 de forma extensiva. Adotamos uma abordagem *Mobile-First* em componentes críticos, garantindo que o menu de navegação se adapte (transformando-se em menu "hambúrguer" em telas pequenas) e que as grades de imagens (Grid Layout) se reajustem automaticamente de 3 colunas para 1 coluna conforme a largura da tela.
+### 1. Responsividade e Menu Mobile
+*   **O Problema**: O site precisava ser acessível em dispositivos móveis sem depender de frameworks pesados como Bootstrap. O menu de navegação precisava se adaptar elegantemente.
+*   **A Solução**: Implementamos um menu "hambúrguer" utilizando **JavaScript Puro (Vanilla JS)** e CSS. O script detecta o clique no ícone `.hamburger` e alterna a classe `.active` no menu `.nav-menu`, garantindo uma transição suave sem carregar bibliotecas externas. O código foi otimizado para rodar após o carregamento do DOM (`DOMContentLoaded`).
 
-### 2. Gestão de Imagens Pesadas
-*   **O Problema**: O projeto possui um acervo visual rico (pastas `assentamentos`, `banhos_ervas`). Carregar todas essas imagens em alta resolução simultaneamente causava lentidão no carregamento inicial da página.
-*   **A Solução**: Implementamos técnicas de otimização no CSS e HTML. As imagens foram tratadas para formatos web otimizados. Além disso, a estrutura de pastas foi organizada categoricamente (`img/assentamentos/`, `img/buzios/`) para facilitar a manutenção e a referência no código, garantindo que apenas os assets necessários para cada seção fossem priorizados visualmente.
+### 2. Integração de Chat sem Bloqueio
+*   **O Problema**: A necessidade de um botão de chat flutuante (`whatsapp-float`) que não interferisse na performance inicial da página.
+*   **A Solução**: A lógica do chat foi isolada no arquivo `chat.js` e carregada no final do `<body>`. Isso garante que o conteúdo principal (HTML/CSS) seja renderizado primeiro, melhorando a métrica de *First Contentful Paint* (FCP).
 
-### 3. Semântica e Acessibilidade (SEO)
-*   **O Problema**: Garantir que o site fosse bem interpretado por motores de busca (Google) e leitores de tela, dado o conteúdo específico e cultural.
-*   **A Solução**: Uso rigoroso das tags semânticas do **HTML5** (`<header>`, `<nav>`, `<main>`, `<section>`, `<footer>`, `<article>`). Isso não apenas melhorou o SEO, mas também facilitou a estilização global via CSS, evitando o uso excessivo de `divs` genéricas.
+### 3. Segurança no Front-end
+*   **O Problema**: Proteger o conteúdo e garantir a integridade da navegação contra scripts maliciosos básicos ou cópias indesejadas.
+*   **A Solução**: Criação do arquivo `security.js`, que centraliza as regras de segurança do cliente, mantendo o código principal limpo e focado na apresentação.
 
-### 4. Interatividade sem Frameworks Pesados
-*   **O Problema**: Necessidade de adicionar dinamismo (como galerias ou menus interativos) sem tornar o site pesado com bibliotecas externas desnecessárias.
-*   **A Solução**: Desenvolvimento de scripts **JavaScript (Vanilla JS)** puros e leves. A lógica de interatividade foi mantida na pasta `js/`, separada da estrutura, garantindo um código limpo e de fácil depuração.
+### 4. Gestão de Estilos Globais
+*   **O Problema**: Manter a consistência visual entre todas as páginas (`index`, `trajetoria`, `contato`, etc.) sem duplicar código CSS.
+*   **A Solução**: Centralização de todos os estilos no arquivo `style.css` na raiz do projeto. O uso de variáveis CSS (se aplicável) e classes utilitárias permitiu que alterações no design (como cores da marca) fossem propagadas instantaneamente para todas as páginas.
 
 ---
 
 ## 🛠️ Tecnologias Utilizadas
 
-O projeto foi construído sobre os pilares fundamentais da web moderna, sem dependências complexas de compilação:
+O projeto foi construído sobre os pilares fundamentais da web moderna:
 
-- **HTML5**: Para estrutura semântica e acessibilidade.
-- **CSS3 (Flexbox & Grid)**: Para estilização avançada, animações sutis e layout responsivo.
-- **JavaScript (ES6+)**: Para manipulação do DOM e interatividade do usuário.
-- **Git**: Para versionamento e histórico de alterações do código.
+- **HTML5**: Estrutura semântica e SEO (Meta tags Open Graph configuradas).
+- **CSS3**: Estilização responsiva, Flexbox e animações.
+- **JavaScript (ES6+)**: Lógica de interação (`chat.js`, `security.js`, menu mobile).
+- **Google Analytics/Ads**: Monitoramento de tráfego e conversões.
 
 ---
 
-## 📂 Estrutura do Projeto
+## 📂 Estrutura de Arquivos
 
-A organização dos arquivos foi pensada para escalabilidade e fácil manutenção:
+A organização reflete a simplicidade e eficiência do projeto estático:
 
 ```
 Site Cezec 1.0/
