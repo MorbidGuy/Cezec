@@ -207,7 +207,7 @@ Reduzir fricção e facilitar contato imediato com a instituição.
 ---
 
 # 🧩 Principais Desafios Enfrentados
-
+```
 ## 1️⃣ Garantir leveza sem framework
 
 Solução:
@@ -235,6 +235,7 @@ Solução:
 Padronização estrutural entre todos os arquivos HTML.
 
 ---
+```
 
 # 📊 Pontos Fortes do Projeto
 
