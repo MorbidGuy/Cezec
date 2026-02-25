@@ -7,6 +7,10 @@
     <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
     
     <link rel="stylesheet" href="./style.css">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'self';">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
+    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
     <meta name="description" content="Loja Cezéc. Adquira guias, banhos e trabalhos espirituais com preparação e cruzamento de energia.">
     <meta name="keywords" content="Cezec, Loja, Guias, Banhos, Espiritualidade, Vendas, Orixás">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,16 +18,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
     
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17954014213"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'AW-17954014213');
-    </script>
-    <script>
-      gtag('event', 'conversion', {'send_to': 'AW-17954014213/uSB8CIX90_gbEIWIkvFC'});
-    </script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17954014213"></script>
+        <script src="js/gtag-config.js"></script>
 
     <style>
         .loja-grid {
@@ -146,9 +142,9 @@
                 <li><a href="contato.html">Contato</a></li>
             </ul>
             <div class="nav-social">
-                <a href="https://www.instagram.com/cezecoficial/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/cezecoficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </nav>
     </header>
@@ -224,37 +220,23 @@
 
     <footer>
         <p>&copy; 2026 Cezéc - Casa Espiritual Zé Corisco. Todos os direitos reservados.<br>
-        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
+        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
     </footer>
 
     <script src="chat.js"></script>
     <script src="security.js"></script>
+    <script src="js/main.js" defer></script>
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const hamburger = document.querySelector(".hamburger");
-            const navMenu = document.querySelector(".nav-menu");
-            if(hamburger && navMenu) {
-                hamburger.addEventListener("click", () => {
-                    hamburger.classList.toggle("active");
-                    navMenu.classList.toggle("active");
-                });
-            }
-        });
-
         function comprar(produto, valor) {
-            const numeroWhatsapp = "5511958346854"; 
-            
+            const numeroWhatsapp = "5511958346854";
             const mensagem = `Olá! Gostaria de adquirir o item: *${produto}* (Valor: ${valor}).\n\n` +
                              `Estou ciente de que o item passa por cruzamento de energia e não há envio físico tradicional.\n\n` +
                              `Segue abaixo o meu comprovante de pagamento:`;
-
             const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
-
-            window.open(url, '_blank');
+            const w = window.open(url, '_blank');
+            try { if (w) w.opener = null; } catch(e){}
         }
     </script>
 
 </body>
 </html>
-
-<script src="security.js"></script>

@@ -1,29 +1,41 @@
 <IfModule mod_headers.c>
-    # 1. HSTS (Força HTTPS e previne downgrade attacks)
-    Header set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+    # 1. Content Security Policy (CSP)
+    # Define quais fontes de conteúdo são permitidas. 
+    # 'unsafe-inline' é mantido para scripts/estilos inline, comum em sites estáticos simples, mas idealmente deve ser removido no futuro.
+    Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:;"
 
-    # 2. Proteção contra Clickjacking (Impede que o site seja aberto em iframes)
+    # 2. X-Frame-Options
+    # Previne Clickjacking impedindo que o site seja aberto em iframes de outros domínios.
     Header always set X-Frame-Options "SAMEORIGIN"
 
-    # 3. Proteção contra XSS (Cross-Site Scripting)
-    Header set X-XSS-Protection "1; mode=block"
+    # 3. X-Content-Type-Options
+    # Previne que o navegador tente "adivinhar" o tipo de arquivo (MIME Sniffing).
+    Header always set X-Content-Type-Options "nosniff"
 
-    # 4. Previne MIME-sniffing (Impede o navegador de adivinhar tipos de arquivo)
-    Header set X-Content-Type-Options "nosniff"
+    # 4. Strict-Transport-Security (HSTS)
+    # Força o navegador a usar apenas HTTPS por 1 ano (31536000 segundos).
+    Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains"
 
-    # 5. Referrer Policy (Protege dados de navegação)
-    Header set Referrer-Policy "strict-origin-when-cross-origin"
-
-    # 6. Content Security Policy (CSP) - A Muralha de Defesa
-    # Permite apenas fontes do Google e scripts/estilos locais. Bloqueia injeções externas.
-    Header set Content-Security-Policy "default-src 'self'; img-src 'self' data:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline'; object-src 'none'; frame-ancestors 'self';"
+    # 5. Referrer-Policy
+    # Protege dados de navegação ao clicar em links externos.
+    Header always set Referrer-Policy "strict-origin-when-cross-origin"
+    
+    # 6. X-XSS-Protection (Camada extra para navegadores antigos)
+    Header always set X-XSS-Protection "1; mode=block"
 </IfModule>
 
-# Bloquear acesso a arquivos sensíveis (como .git, .env, etc)
-<FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
-
-# Desabilitar listagem de diretórios (Evita que vejam seus arquivos se não houver index.html)
-Options -Indexes
+# Configurações de Cache para performance (Opcional, mas recomendado para sites estáticos)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType image/jpg "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType image/gif "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/pdf "access plus 1 month"
+    ExpiresByType text/javascript "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType application/x-javascript "access plus 1 month"
+    ExpiresByType image/x-icon "access plus 1 year"
+    ExpiresDefault "access plus 2 days"
+</IfModule>

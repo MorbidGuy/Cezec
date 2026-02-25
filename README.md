@@ -1,3 +1,100 @@
+Cezéc — Deploy & Hardening Guide
+=================================
+
+Resumo
+------
+Este README descreve como publicar este site estático no GitHub Pages e como aplicar cabeçalhos de segurança (HSTS, X-Frame-Options, X-Content-Type-Options, CSP, Referrer-Policy, etc.) usando um proxy (recomendado: Cloudflare Worker). O GitHub Pages não permite alterar cabeçalhos HTTP de resposta diretamente; por isso recomendamos o uso do Cloudflare (ou outro CDN/proxy) para impor headers seguros.
+
+1) Publicar no GitHub Pages
+---------------------------
+- Opção A — Servir da branch `gh-pages` (fácil):
+
+  ```bash
+  # a partir da raiz do projeto
+  git init
+  git add .
+  git commit -m "site: initial"
+  git branch -M main
+  git remote add origin <your-repo-url>
+  git push -u origin main
+
+  # criar branch gh-pages que contém a build (opcional)
+  git subtree push --prefix . origin gh-pages
+  ```
+
+- Opção B — Servir do branch `main` (root) via GitHub Pages settings:
+  - Vá em Settings -> Pages no repositório e escolha `main` / `root` ou `gh-pages` conforme preferir.
+  - O arquivo `CNAME` presente no repositório define o domínio customizado (se estiver usando `cezec.com.br`). Mantenha-o.
+
+2) Por que usar um proxy/CDN (Cloudflare)
+----------------------------------------
+- GitHub Pages não permite definir headers de resposta HTTP. Para HSTS, X-Frame-Options, CSP, etc., você precisa de um proxy que modifique headers.
+- Cloudflare (modo proxy ON/"orange cloud") encaminha tráfego e permite usar Workers para ajustar headers de resposta.
+
+3) Exemplo: Cloudflare Worker para aplicar headers
+-------------------------------------------------
+Crie um Worker no painel do Cloudflare e use este código (rote para `cezec.com.br/*`):
+
+```javascript
+addEventListener('fetch', event => {
+  event.respondWith(handle(event.request))
+})
+
+async function handle(request) {
+  const resp = await fetch(request)
+  const newHeaders = new Headers(resp.headers)
+
+  newHeaders.set('Strict-Transport-Security', 'max-age=63072000; includeSubDomains; preload')
+  newHeaders.set('X-Frame-Options', 'SAMEORIGIN')
+  newHeaders.set('X-Content-Type-Options', 'nosniff')
+  newHeaders.set('Referrer-Policy', 'strict-origin-when-cross-origin')
+  newHeaders.set('Permissions-Policy', "geolocation=()")
+
+  newHeaders.set('Content-Security-Policy', "default-src 'self' https:; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com;")
+
+  newHeaders.set('Access-Control-Allow-Origin', 'https://cezec.com.br')
+
+  return new Response(resp.body, { status: resp.status, statusText: resp.statusText, headers: newHeaders })
+}
+```
+
+Instruções rápidas no Cloudflare:
+- Adicione o domínio `cezec.com.br` ao Cloudflare e atualize os nameservers no provedor DNS (Hostinger, etc.).
+- Ative proxy (orange cloud) para os registros DNS que apontam para GitHub Pages.
+- No painel Workers, crie um novo Worker, cole o código acima e salve.
+- Na aba "Triggers" do Worker, adicione um Route: `cezec.com.br/*`.
+
+4) Testar os headers
+---------------------
+Use estes comandos para verificar os headers de resposta (local):
+
+PowerShell / Windows:
+```powershell
+curl.exe -vI https://cezec.com.br
+```
+
+macOS / Linux:
+```bash
+curl -I https://cezec.com.br
+```
+
+5) HSTS Preload (opcional)
+--------------------------
+- Se desejar incluir o site no HSTS preload list, verifique requisitos (serve HSTS com includeSubDomains e max-age >= 10886400 e HTTPS contínuo) e envie em https://hstspreload.org/. Leia atentamente antes de habilitar.
+
+6) Observações e recomendações adicionais
+----------------------------------------
+- Mantive uma `Content-Security-Policy` básica como meta tag nos HTML, mas cabeçalhos de resposta (via Worker) são a forma correta de reforçar a política.
+- Remova ou revise scripts que fazem `document.write` ou inspecionam o console (o `security.js` contém código anti-debug que pode interferir em debugging e em testes). Avalie se deseja mantê-lo em produção.
+- Cuidado com `Access-Control-Allow-Origin: *` — se houver endpoints que aceitam credenciais, restrinja a origem.
+- Testes: depois de aplicar o Worker, valide com scanners como securityheaders.com e observability via curl.
+
+7) Precisa que eu faça?
+----------------------
+- Posso: (a) gerar o Worker pronto e deployable, (b) gerar instruções passo-a-passo com capturas de tela para Cloudflare, ou (c) não fazer nada e apenas te orientar. Diga qual opção prefere.
+
+---
+Arquivos locais modificados para hardening: `index.html`, `contato.html`, `doacoes.html`, `trajetoria.html`, `trabalhos.html`, `oracoes.html`, `loja_cezec.html`, `servicos.html`, `atendimentos.html`, `js/main.js`, `js/gtag-config.js`.
 # 🏛️ Site Cezec 1.0  
 ## Plataforma Institucional — Casa Espiritual Zé Corisco
 
