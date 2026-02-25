@@ -385,3 +385,51 @@ Padronização estrutural entre todos os arquivos HTML.
 Projeto desenvolvido para uso institucional da Casa Espiritual Zé Corisco.
 
 ---
+
+## 💬 Chat IA (assistente virtual)
+
+O projeto inclui um widget de chat (`chat.js`) que provê uma experiência de atendimento automatizado.
+
+- Modo padrão: comportamento local (rule-based) que responde perguntas frequentes, sugere serviços e direciona para o WhatsApp.
+- Modo avançado (opcional): integração com um serviço de IA (por exemplo, um endpoint proxy que interage com a OpenAI). Recomendamos usar um proxy server-side para não expor chaves de API no frontend.
+
+Exemplo mínimo de proxy Node.js (Express) — para ser hospedado em um servidor ou função serverless:
+
+```javascript
+const express = require('express')
+const fetch = require('node-fetch')
+const app = express()
+app.use(express.json())
+
+app.post('/ai-proxy', async (req, res) => {
+  const { prompt } = req.body
+  const apiKey = process.env.OPENAI_API_KEY
+  if (!apiKey) return res.status(500).json({ error: 'API key não configurada' })
+
+  const r = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({ model: 'gpt-4o-mini', messages: [{ role: 'user', content: prompt }], max_tokens: 500 })
+  })
+  const data = await r.json()
+  const reply = data.choices && data.choices[0] && data.choices[0].message ? data.choices[0].message.content : 'Desculpe, ocorreu um erro.'
+  res.json({ reply })
+})
+
+app.listen(process.env.PORT || 3000)
+```
+
+Configuração recomendada no frontend:
+
+- Publique o proxy em um domínio/URL que você controle (ex: `https://meu-proxy.example.com/ai-proxy`).
+- No HTML, defina uma meta tag ou variável global apontando para o proxy:
+
+```html
+<meta name="ai-proxy" content="https://meu-proxy.example.com/ai-proxy">
+```
+
+O `chat.js` detecta automaticamente essa configuração e encaminhará mensagens ao proxy. Se nenhum proxy for encontrado, o assistente roda em modo local.
+
+---
+
+Se quiser, eu posso gerar o proxy completo, preparar um deploy serverless (Vercel/Cloudflare Workers) ou ajustar o comportamento do assistente para um tom mais formal ou coloquial. Diga qual opção prefere.

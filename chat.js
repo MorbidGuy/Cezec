@@ -1,223 +1,257 @@
 document.addEventListener('DOMContentLoaded', () => {
     if (!document.getElementById('chat-widget')) {
         const widgetHTML = `
-            <div id="chat-widget">
+            <div id="chat-widget" aria-live="polite">
                 <div class="chat-header">
                     <span>Atendimento Cezec</span>
                     <button id="close-chat" type="button" aria-label="Fechar">×</button>
                 </div>
-                <div class="chat-body"></div>
-                <div class="chat-input-area">
-                    <input type="text" id="chat-input" placeholder="Digite sua mensagem...">
-                    <button id="send-chat-message" type="button" aria-label="Enviar">➤</button>
+                <div class="chat-body" role="log"></div>
+                <div id="chat-input-area" class="chat-input-area">
+                    <input type="text" id="chat-input" placeholder="Digite sua mensagem..." aria-label="Mensagem">
+                    <button id="send-chat-message" type="button" aria-label="Enviar">Enviar</button>
                 </div>
             </div>
-        `;
-        document.body.insertAdjacentHTML('beforeend', widgetHTML);
+        `
+        document.body.insertAdjacentHTML('beforeend', widgetHTML)
     }
 
-    const chatWidget = document.getElementById('chat-widget');
-    const openChatBtn = document.getElementById('whatsapp-float') || document.querySelector('.whatsapp-float');
-    const closeChatBtn = document.getElementById('close-chat');
-    const chatBody = chatWidget.querySelector('.chat-body');
-    const chatInput = document.getElementById('chat-input');
-    const sendMsgBtn = document.getElementById('send-chat-message') || document.getElementById('send-btn');
-    const inputArea = document.getElementById('chat-input-area');
+    const chatWidget = document.getElementById('chat-widget')
+    const openChatBtn = document.getElementById('whatsapp-float') || document.querySelector('.whatsapp-float')
+    const closeChatBtn = document.getElementById('close-chat')
+    const chatBody = chatWidget.querySelector('.chat-body')
+    const chatInput = document.getElementById('chat-input')
+    const sendMsgBtn = document.getElementById('send-chat-message') || document.getElementById('send-btn')
+    const inputArea = document.getElementById('chat-input-area')
 
-    // Garante que o chat comece oculto via JS (segurança caso o CSS falhe)
-    if (chatWidget) {
-        chatWidget.style.display = 'none';
+    if (chatWidget) chatWidget.style.display = 'none'
+    if (!openChatBtn) return
+
+    let chatIsOpen = false
+    const context = []
+    const MAX_MESSAGES = 6
+    let inputLocked = false
+
+    const initialState = {
+        text: 'Olá! Sou o assistente do Cezec. Escolha uma opção para eu te ajudar rapidamente:',
+        options: ['Nossos Serviços', 'Agendar', 'Endereço e Horários', 'Doações', 'Falar com atendente']
     }
 
-    if (!openChatBtn) return;
-
-    let chatIsOpen = false;
-    let awaitingInputFor = null;
-
-    const chatFlow = {
-        start: {
-            text: 'Olá! Sou o assistente virtual do Cezec. Como posso te ajudar hoje?',
-            options: [
-                { text: 'Nossos Serviços', next: 'servicos' },
-                { text: 'Agendar uma consulta', next: 'agendamento' },
-                { text: 'Endereço e Horários', next: 'endereco' },
-                { text: 'Tirar Dúvidas', next: 'tirar_duvidas' },
-            ],
-            isInput: false,
-        },
-        servicos: {
-            text: 'Oferecemos diversos trabalhos espirituais, como consultas com Búzios, banhos de ervas e trabalhos para abertura de caminhos. Qual deles te interessa mais?',
-            options: [
-                { text: 'Jogo de Búzios', next: 'buzios' },
-                { text: 'Banhos de Ervas', next: 'banhos' },
-                { text: 'Voltar ao início', next: 'start' },
-            ],
-            isInput: false,
-        },
-        agendamento: {
-            text: 'Para agendar uma consulta, por favor, nos chame diretamente no WhatsApp para um atendimento personalizado.',
-            options: [
-                { text: 'Abrir WhatsApp', action: () => window.open('https://wa.me/5511958346854', '_blank') },
-                { text: 'Voltar ao início', next: 'start' },
-            ],
-            isInput: false,
-        },
-        endereco: {
-            text: 'No momento estamos de mudanças, e não temos um endereço fixo. Nosso atendimento é feito principalmente via WhatsApp. Para mais informações entre em contato conosco por lá!',
-            options: [{ text: 'Voltar ao início', next: 'start' }],
-            isInput: false,
-        },
-        buzios: {
-            text: 'A consulta com o Jogo de Búzios é um momento de orientação e clareza. O agendamento é feito pelo WhatsApp.',
-            options: [
-                { text: 'Agendar agora', action: () => window.open('https://wa.me/5511958346854', '_blank') },
-                { text: 'Ver outros serviços', next: 'servicos' },
-            ],
-            isInput: false,
-        },
-        banhos: {
-            text: 'Nossos banhos de ervas são preparados para limpeza e energização. Para saber mais, fale conosco no WhatsApp.',
-            options: [
-                { text: 'Falar no WhatsApp', action: () => window.open('https://wa.me/5511958346854', '_blank') },
-                { text: 'Voltar ao início', next: 'start' },
-            ],
-            isInput: false,
-        },
-        tirar_duvidas: {
-            text: 'Com certeza! Para que eu possa te direcionar da melhor forma, me diga primeiro como gostaria de ser chamado(a).',
-            isInput: true,
-            next: 'abrir_whatsapp_duvida'
-        },
-        abrir_whatsapp_duvida: {
-            text: 'Obrigado, {{name}}! Para um atendimento personalizado e para tirar todas as suas dúvidas, por favor, nos chame diretamente no WhatsApp. Estaremos te esperando!',
-            options: [
-                { text: 'Abrir WhatsApp', action: 'open_whatsapp_duvida' },
-                { text: 'Voltar ao início', next: 'start' }
-            ],
-            isInput: false
-        },
-    };
-
-
-    const toggleChat = (e) => {
-        if (e) e.preventDefault();
-        chatIsOpen = !chatIsOpen;
-        chatWidget.style.display = chatIsOpen ? 'flex' : 'none';
-        openChatBtn.style.display = chatIsOpen ? 'none' : 'flex';
-        if (chatIsOpen && chatBody.children.length === 0) {
-            navigateTo('start');
-        }
-    };
+    const lockInput = (lock = true) => {
+        inputLocked = lock
+        if (chatInput) chatInput.disabled = lock
+        if (sendMsgBtn) sendMsgBtn.disabled = lock
+    }
 
     const createMessageElement = (text, sender) => {
-        const messageDiv = document.createElement('div');
-        messageDiv.classList.add('chat-message', `${sender}-message`);
-        messageDiv.textContent = text;
-        return messageDiv;
-    };
+        const messageDiv = document.createElement('div')
+        messageDiv.classList.add('chat-message', `${sender}-message`)
+        messageDiv.textContent = text
+        return messageDiv
+    }
 
     const showTypingIndicator = () => {
-        const typingDiv = document.createElement('div');
-        typingDiv.classList.add('chat-message', 'bot-message');
-        typingDiv.innerHTML = `<div class="typing-dots"><span></span><span></span><span></span></div>`;
-        chatBody.appendChild(typingDiv);
-        chatBody.scrollTop = chatBody.scrollHeight;
-        return typingDiv;
-    };
+        const typingDiv = document.createElement('div')
+        typingDiv.classList.add('chat-message', 'bot-message')
+        typingDiv.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>'
+        chatBody.appendChild(typingDiv)
+        chatBody.scrollTop = chatBody.scrollHeight
+        return typingDiv
+    }
 
-    const navigateTo = (nodeKey, params = {}) => {
-        const node = chatFlow[nodeKey];
-        if (!node) return;
-
-        if (nodeKey === 'start') {
-            chatBody.innerHTML = '';
+    const localBrain = (text) => {
+        const t = (text || '').toLowerCase()
+        const kws = {
+            saudacao: /^(oi|ol[aá]|bom dia|boa tarde|boa noite)/i,
+            servicos: /(servi[cç]os|o que fazem|trabalhos|buzios|banho|banhos)/i,
+            agendar: /(agend|marcar|consulta)/i,
+            endereco: /(enderec|local|onde|hor[aá]rio)/i,
+            pix: /(doa|pix|doa[cç][ãa]o|contribui)/i,
+            obrigado: /(obrigad|valeu|gratid)/i,
         }
 
-        const typingIndicator = showTypingIndicator();
+        if (kws.saudacao.test(t)) return { text: 'Olá! Posso te informar sobre nossos serviços, agendamentos ou doações. Como posso ajudar?' }
+        if (kws.servicos.test(t)) return { text: 'Oferecemos Jogo de Búzios, Banhos de Ervas e trabalhos espirituais. Deseja agendar ou saber preços?' , options: ['Agendar', 'Preços', 'Voltar ao início'] }
+        if (kws.agendar.test(t)) return { text: 'Para agendar, por favor entre em contato pelo WhatsApp. Deseja que eu abra o WhatsApp para você?' , actions: [{ label: 'Abrir WhatsApp', url: 'https://wa.me/5511958346854' }] }
+        if (kws.endereco.test(t)) return { text: 'Atualmente nosso atendimento é realizado principalmente via WhatsApp. Entre em contato por lá para mais detalhes.' }
+        if (kws.pix.test(t)) return { text: 'Você pode fazer doações via PIX. Veja o QR Code em nossa página de doações.' }
+        if (kws.obrigado.test(t)) return { text: 'Por nada — fico feliz em ajudar! Quer que eu abra o WhatsApp?' }
 
-        setTimeout(() => {
-            chatBody.removeChild(typingIndicator);
+        return null
+    }
 
-            let botText = node.text;
-            if (params.name) {
-                botText = botText.replace('{{name}}', params.name);
-            }
-            const botMessage = createMessageElement(botText, 'bot');
-            chatBody.appendChild(botMessage);
+    const getProxyUrlFromMeta = () => {
+        const m = document.querySelector('meta[name="ai-proxy"]')
+        return m ? m.getAttribute('content') : null
+    }
 
-            const oldOptions = chatBody.querySelectorAll('.chat-options');
-            oldOptions.forEach(opt => opt.remove());
-
-            if (inputArea) {
-                if (node.isInput) {
-                    inputArea.style.display = 'flex';
-                    if (chatInput) chatInput.focus();
-                    awaitingInputFor = node.next;
-                } else {
-                    inputArea.style.display = 'none';
-                    awaitingInputFor = null;
-                }
-            }
-
-            if (node.options && node.options.length > 0) {
-                const optionsContainer = document.createElement('div');
-                optionsContainer.classList.add('chat-options');
-
-                node.options.forEach(option => {
-                    const optionBtn = document.createElement('button');
-                    optionBtn.classList.add('chat-option-btn');
-                    optionBtn.textContent = option.text;
-                    optionBtn.addEventListener('click', () => {
-                        const userMessage = createMessageElement(option.text, 'user');
-                        chatBody.appendChild(userMessage);
-
-                        if (option.next) {
-                            navigateTo(option.next, params);
-                        } else if (option.action === 'open_whatsapp_duvida') {
-                            const name = params.name || 'visitante';
-                            const message = encodeURIComponent(`Olá! Meu nome é ${name} e gostaria de tirar algumas dúvidas.`);
-                            window.open(`https://wa.me/5511958346854?text=${message}`, '_blank');
-                        } else if (option.action) {
-                            option.action();
-                        }
-                    });
-                    optionsContainer.appendChild(optionBtn);
-                });
-                chatBody.appendChild(optionsContainer);
-            }
-
-            chatBody.scrollTop = chatBody.scrollHeight;
-        }, 800);
-    };
-
-    openChatBtn.addEventListener('click', toggleChat);
-    closeChatBtn.addEventListener('click', toggleChat);
-
-    const handleTextInput = () => {
-        if (!chatInput) return;
-        const text = chatInput.value.trim();
-        if (text) {
-            const userMessage = createMessageElement(text, 'user');
-            chatBody.appendChild(userMessage);
-            chatInput.value = '';
-            chatBody.scrollTop = chatBody.scrollHeight;
-
-            if (awaitingInputFor) {
-                const nextNodeKey = awaitingInputFor;
-                awaitingInputFor = null;
-                navigateTo(nextNodeKey, { name: text });
-            } else {
-                setTimeout(() => {
-                    const response = createMessageElement("Desculpe, no momento só consigo responder através das opções.", 'bot');
-                    chatBody.appendChild(response);
-                    chatBody.scrollTop = chatBody.scrollHeight;
-                }, 800);
-            }
+    const callRemoteAI = async (prompt) => {
+        const proxy = getProxyUrlFromMeta() || (window.AI_PROXY_URL || null)
+        if (!proxy) return null
+        try {
+            const r = await fetch(proxy, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt, context }) })
+            if (!r.ok) return null
+            const j = await r.json()
+            return j.reply || (j.choices && j.choices[0] && (j.choices[0].message && j.choices[0].message.content || j.choices[0].text)) || null
+        } catch (e) {
+            return null
         }
-    };
+    }
 
-    if (sendMsgBtn) sendMsgBtn.addEventListener('click', handleTextInput);
-    if (chatInput) chatInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleTextInput();
-    });
-});
+    const getReply = async (message) => {
+        const proxyReply = await callRemoteAI(message)
+        if (proxyReply) return { text: proxyReply }
+
+        const local = localBrain(message)
+        if (local) return local
+
+        return { text: 'Desculpe, não entendi. Posso te mostrar as opções principais novamente?', options: ['Nossos Serviços', 'Falar com atendente', 'Voltar ao início'] }
+    }
+
+    const processOption = async (opt) => {
+        const low = (opt || '').toLowerCase()
+
+        // Voltar ao início -> mostra novamente o menu inicial
+        if (low.includes('voltar')) {
+            chatBody.innerHTML = ''
+            setTimeout(() => renderBotResponse(initialState), 120)
+            return
+        }
+
+        // Ações relacionadas a agendamento / whatsapp -> abrir e limpar
+        if (low.includes('agendar') || low.includes('whatsapp') || low.includes('falar') || low.includes('atendente') || low.includes('abrir')) {
+            lockInput(true)
+            const hint = createMessageElement('Abrindo WhatsApp...', 'bot')
+            chatBody.appendChild(hint)
+            pruneMessages()
+            window.open('https://wa.me/5511958346854', '_blank')
+            setTimeout(() => {
+                clearConversation(true)
+                lockInput(false)
+            }, 900)
+            return
+        }
+
+        // Doações -> abrir página de doações e limpar
+        if (low.includes('doa') || low.includes('pix') || low.includes('doações') || low.includes('doacoes')) {
+            const hint = createMessageElement('Abrindo página de doações...', 'bot')
+            chatBody.appendChild(hint)
+            pruneMessages()
+            window.open('doacoes.html', '_self')
+            setTimeout(() => clearConversation(true), 700)
+            return
+        }
+
+        // Caso padrão: envie para o fluxo (pode acionar localBrain ou proxy)
+        handleUserMessage(opt)
+    }
+
+    const pruneMessages = () => {
+        const msgs = Array.from(chatBody.querySelectorAll('.chat-message'))
+        while (msgs.length > MAX_MESSAGES) {
+            const first = msgs.shift()
+            if (first) first.remove()
+        }
+    }
+
+    const renderBotResponse = (resp) => {
+        if (!resp) return
+        const botMessage = createMessageElement(resp.text, 'bot')
+        chatBody.appendChild(botMessage)
+        pruneMessages()
+
+        if (resp.options) {
+            const optionsContainer = document.createElement('div')
+            optionsContainer.classList.add('chat-options')
+            resp.options.forEach(opt => {
+                const b = document.createElement('button')
+                b.classList.add('chat-option-btn')
+                b.textContent = opt
+                b.addEventListener('click', () => {
+                    const um = createMessageElement(opt, 'user')
+                    chatBody.appendChild(um)
+                    pruneMessages()
+                    processOption(opt)
+                })
+                optionsContainer.appendChild(b)
+            })
+            chatBody.appendChild(optionsContainer)
+        }
+
+        if (resp.actions) {
+            const actionsContainer = document.createElement('div')
+            actionsContainer.classList.add('chat-actions')
+            resp.actions.forEach(a => {
+                const b = document.createElement('button')
+                b.classList.add('chat-action-btn')
+                b.textContent = a.label
+                b.addEventListener('click', async () => {
+                    // show immediate feedback, then run action and auto-clean
+                    const hint = createMessageElement('Abrindo...', 'bot')
+                    chatBody.appendChild(hint)
+                    pruneMessages()
+                    window.open(a.url, '_blank')
+                    setTimeout(() => {
+                        clearConversation(true)
+                    }, 900)
+                })
+                actionsContainer.appendChild(b)
+            })
+            chatBody.appendChild(actionsContainer)
+        }
+
+        chatBody.scrollTop = chatBody.scrollHeight
+    }
+
+    const handleUserMessage = async (text) => {
+        if (!text) return
+        if (inputLocked) return
+        lockInput(true)
+        context.push({ role: 'user', content: text })
+        const typing = showTypingIndicator()
+        const reply = await getReply(text)
+        if (typing && typing.parentNode) chatBody.removeChild(typing)
+        if (reply && reply.text) {
+            context.push({ role: 'assistant', content: reply.text })
+            renderBotResponse(reply)
+        }
+        // pequena folga antes de liberar input
+        setTimeout(() => lockInput(false), 250)
+    }
+
+    const clearConversation = (close = false) => {
+        chatBody.innerHTML = ''
+        if (close) {
+            chatWidget.style.display = 'none'
+            if (openChatBtn) openChatBtn.style.display = 'flex'
+            chatIsOpen = false
+        }
+    }
+
+    const toggleChat = (e) => {
+        if (e) e.preventDefault()
+        chatIsOpen = !chatIsOpen
+        chatWidget.style.display = chatIsOpen ? 'flex' : 'none'
+        if (openChatBtn) openChatBtn.style.display = chatIsOpen ? 'none' : 'flex'
+        if (chatIsOpen) {
+            if (chatBody.children.length === 0) renderBotResponse(initialState)
+        }
+    }
+
+    openChatBtn.addEventListener('click', toggleChat)
+    if (closeChatBtn) closeChatBtn.addEventListener('click', toggleChat)
+
+    const submitInput = () => {
+        const text = (chatInput && chatInput.value || '').trim()
+        if (!text) return
+        if (inputLocked) return
+        const userMessage = createMessageElement(text, 'user')
+        chatBody.appendChild(userMessage)
+        if (chatInput) chatInput.value = ''
+        pruneMessages()
+        handleUserMessage(text)
+    }
+
+    if (sendMsgBtn) sendMsgBtn.addEventListener('click', submitInput)
+    if (chatInput) chatInput.addEventListener('keypress', (e) => { if (e.key === 'Enter') submitInput() })
+})
