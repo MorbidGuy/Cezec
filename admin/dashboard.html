@@ -330,7 +330,6 @@
     </div>
 
     <script>
-        // Recuperar usuário do localStorage (se houver)
         window.addEventListener('load', () => {
             const username = localStorage.getItem('admin_user') || 'Administrador';
             document.getElementById('userDisplay').textContent = `Bem-vindo, ${username}`;

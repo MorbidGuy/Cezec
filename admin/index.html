@@ -224,10 +224,8 @@
             const btnText = document.getElementById('btnText');
             const errorMsg = document.getElementById('errorMsg');
 
-            // Limpar mensagem de erro
             errorMsg.classList.remove('show');
 
-            // Validações básicas
             if (!username || !password) {
                 errorMsg.textContent = 'Por favor, preencha todos os campos.';
                 errorMsg.classList.add('show');
@@ -246,21 +244,16 @@
                 return;
             }
 
-            // Simular carregamento
             spinner.classList.add('show');
             btnText.textContent = 'Verificando...';
 
-            // Simular delay de conexão (2-3 segundos)
             setTimeout(() => {
-                // Salvar username no localStorage para exibir no dashboard
                 localStorage.setItem('admin_user', username);
                 
-                // Redirecionar para o dashboard fake
                 window.location.href = '/admin/dashboard.html';
             }, 2500 + Math.random() * 1000);
         }
 
-        // Prevenir autofill automático
         window.addEventListener('load', () => {
             document.getElementById('loginForm').reset();
         });
