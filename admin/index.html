@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cezec - Acesso Administrativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            color: #e0e0e0;
+        }
+
+        .login-container {
+            background: #1a1a1a;
+            border-radius: 8px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            border: 1px solid #8B0000;
+        }
+
+        .logo-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .logo-section h1 {
+            color: #8B0000;
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-family: 'Cormorant', serif;
+            font-weight: 700;
+        }
+
+        .logo-section p {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            color: #e0e0e0;
+            font-weight: 500;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #333;
+            border-radius: 4px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            background-color: #242424;
+            color: #e0e0e0;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            outline: none;
+            border-color: #8B0000;
+            box-shadow: 0 0 0 3px rgba(139, 0, 0, 0.1);
+        }
+
+        .remember-forgot {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            font-size: 12px;
+        }
+
+        .remember-forgot a {
+            color: #8B0000;
+            text-decoration: none;
+        }
+
+        .remember-forgot a:hover {
+            text-decoration: underline;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #8B0000;
+            color: #e0e0e0;
+            border: none;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(139, 0, 0, 0.4);
+        }
+
+        .login-btn:active {
+            transform: translateY(0);
+        }
+
+        .loading {
+            display: none;
+        }
+
+        .loading.show {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .footer-text {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 12px;
+            color: #a0a0a0;
+        }
+
+        .error-message {
+            display: none;
+            background-color: #2a1515;
+            color: #ff6b6b;
+            padding: 12px;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            border: 1px solid #8B0000;
+        }
+
+        .error-message.show {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo-section">
+            <h1>CEZEC</h1>
+            <p>Painel de Administração</p>
+        </div>
+
+        <div class="error-message" id="errorMsg"></div>
+
+        <form id="loginForm" onsubmit="handleLogin(event)">
+            <div class="form-group">
+                <label for="username">Usuário</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Digite seu usuário"
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Senha</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Digite sua senha"
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <div class="remember-forgot">
+                <label style="margin-bottom: 0; font-weight: normal;">
+                    <input type="checkbox" name="remember"> Lembrar-me
+                </label>
+                <a href="#">Esqueceu a senha?</a>
+            </div>
+
+            <button type="submit" class="login-btn">
+                <span class="loading" id="spinner"></span>
+                <span id="btnText">Entrar</span>
+            </button>
+        </form>
+
+        <div class="footer-text">
+            <p>Seguro e protegido por SSL</p>
+        </div>
+    </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const spinner = document.getElementById('spinner');
+            const btnText = document.getElementById('btnText');
+            const errorMsg = document.getElementById('errorMsg');
+
+            // Limpar mensagem de erro
+            errorMsg.classList.remove('show');
+
+            // Validações básicas
+            if (!username || !password) {
+                errorMsg.textContent = 'Por favor, preencha todos os campos.';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            if (username.length < 3) {
+                errorMsg.textContent = 'Usuário deve ter no mínimo 3 caracteres.';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            if (password.length < 6) {
+                errorMsg.textContent = 'Senha deve ter no mínimo 6 caracteres.';
+                errorMsg.classList.add('show');
+                return;
+            }
+
+            // Simular carregamento
+            spinner.classList.add('show');
+            btnText.textContent = 'Verificando...';
+
+            // Simular delay de conexão (2-3 segundos)
+            setTimeout(() => {
+                // Salvar username no localStorage para exibir no dashboard
+                localStorage.setItem('admin_user', username);
+                
+                // Redirecionar para o dashboard fake
+                window.location.href = '/admin/dashboard.html';
+            }, 2500 + Math.random() * 1000);
+        }
+
+        // Prevenir autofill automático
+        window.addEventListener('load', () => {
+            document.getElementById('loginForm').reset();
+        });
+    </script>
+</body>
+</html>

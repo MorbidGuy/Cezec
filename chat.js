@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const context = []
     const MAX_MESSAGES = 6
     let inputLocked = false
+    const AI_TIMEOUT_MS = 8000 // 8 segundos de limite para IA
 
     const initialState = {
         text: 'Olá! Sou o assistente do Cezec. Escolha uma opção para eu te ajudar rapidamente:',
@@ -68,11 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
             endereco: /(enderec|local|onde|hor[aá]rio)/i,
             pix: /(doa|pix|doa[cç][ãa]o|contribui)/i,
             obrigado: /(obrigad|valeu|gratid)/i,
+            humano: /(falar|atendente|humano|pessoa|zap|whatsapp)/i,
         }
 
         if (kws.saudacao.test(t)) return { text: 'Olá! Posso te informar sobre nossos serviços, agendamentos ou doações. Como posso ajudar?' }
         if (kws.servicos.test(t)) return { text: 'Oferecemos Jogo de Búzios, Banhos de Ervas e trabalhos espirituais. Deseja agendar ou saber preços?' , options: ['Agendar', 'Preços', 'Voltar ao início'] }
-        if (kws.agendar.test(t)) return { text: 'Para agendar, por favor entre em contato pelo WhatsApp. Deseja que eu abra o WhatsApp para você?' , actions: [{ label: 'Abrir WhatsApp', url: 'https://wa.me/5511958346854' }] }
+        if (kws.agendar.test(t) || kws.humano.test(t)) return { text: 'Para agendamentos ou falar com um atendente, por favor entre em contato pelo WhatsApp. Deseja abrir agora?' , actions: [{ label: 'Abrir WhatsApp', url: 'https://wa.me/5511958346854' }] }
         if (kws.endereco.test(t)) return { text: 'Atualmente nosso atendimento é realizado principalmente via WhatsApp. Entre em contato por lá para mais detalhes.' }
         if (kws.pix.test(t)) return { text: 'Você pode fazer doações via PIX. Veja o QR Code em nossa página de doações.' }
         if (kws.obrigado.test(t)) return { text: 'Por nada — fico feliz em ajudar! Quer que eu abra o WhatsApp?' }
@@ -89,7 +91,16 @@ document.addEventListener('DOMContentLoaded', () => {
         const proxy = getProxyUrlFromMeta() || (window.AI_PROXY_URL || null)
         if (!proxy) return null
         try {
-            const r = await fetch(proxy, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ prompt, context }) })
+            const controller = new AbortController()
+            const id = setTimeout(() => controller.abort(), AI_TIMEOUT_MS)
+            
+            const r = await fetch(proxy, { 
+                method: 'POST', 
+                headers: { 'Content-Type': 'application/json' }, 
+                body: JSON.stringify({ prompt, context }),
+                signal: controller.signal
+            })
+            clearTimeout(id)
             if (!r.ok) return null
             const j = await r.json()
             return j.reply || (j.choices && j.choices[0] && (j.choices[0].message && j.choices[0].message.content || j.choices[0].text)) || null
@@ -114,6 +125,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Voltar ao início -> mostra novamente o menu inicial
         if (low.includes('voltar')) {
             chatBody.innerHTML = ''
+            // Limpa o contexto para não confundir a IA
+            context.length = 0 
             setTimeout(() => renderBotResponse(initialState), 120)
             return
         }
@@ -234,6 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
         chatWidget.style.display = chatIsOpen ? 'flex' : 'none'
         if (openChatBtn) openChatBtn.style.display = chatIsOpen ? 'none' : 'flex'
         if (chatIsOpen) {
+            if (chatInput) setTimeout(() => chatInput.focus(), 100)
             if (chatBody.children.length === 0) renderBotResponse(initialState)
         }
     }

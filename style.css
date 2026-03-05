@@ -12,11 +12,11 @@
     background: #0a0a0a;
 }
 ::-webkit-scrollbar-thumb {
-    background: #D90429;
+    background: #8B0000;
     border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-    background: #A4061F;
+    background: #8B0000;
 }
 
 @keyframes fadeIn {
@@ -65,6 +65,11 @@ body.oracoes-bg {
     min-height: 100vh;
 }
 
+::selection {
+    background: #8B0000;
+    color: #121212;
+}
+
 img, video, iframe {
     max-width: 100%;
     height: auto;
@@ -79,7 +84,7 @@ img, video, iframe {
 h1, h2, h3, h4 {
     font-family: 'Cormorant', serif;
     font-weight: 700;
-    color: #D90429; 
+    color: #8B0000; 
 }
 
 h2 {
@@ -95,7 +100,7 @@ h2 {
 }
 
 .dark-section {
-    background-color: #1f1f1f;
+    background-color: #1a1a1a;
 }
 
 .navbar {
@@ -110,13 +115,13 @@ h2 {
     z-index: 1000;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px); 
-    border-bottom: 1px solid #D90429;
+    border-bottom: 1px solid #8B0000;
 }
 
 .logo {
     font-family: 'Cormorant', serif;
     font-size: 1.8rem;
-    color: #D90429;
+    color: #8B0000;
     text-decoration: none;
 }
 
@@ -143,11 +148,12 @@ h2 {
 }
 
 .nav-menu a:hover {
-    color: #D90429;
+    color: #8B0000;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.3);
 }
 
 .cta-button {
-    background-color: #D90429;
+    background-color: #8B0000;
     color: #121212;
     padding: 0.6rem 1.2rem;
     border-radius: 5px;
@@ -157,7 +163,8 @@ h2 {
 }
 
 .cta-button:hover {
-    background-color: #A4061F;
+    background-color: #8B0000;
+    color: #fff;
     transform: translateY(-3px);
 }
 
@@ -174,7 +181,7 @@ h2 {
 }
 
 .nav-social a:hover {
-    color: #D90429;
+    color: #8B0000;
 }
 
 .hero {
@@ -211,7 +218,7 @@ h2 {
 }
 
 .cta-button-main {
-    background-color: #D90429;
+    background-color: #8B0000;
     color: #121212;
     padding: 1rem 2.5rem;
     border-radius: 5px;
@@ -222,9 +229,10 @@ h2 {
 }
 
 .cta-button-main:hover {
-    background-color: #A4061F;
+    background-color: #8B0000;
+    color: #fff;
     transform: translateY(-3px) scale(1.05);
-    box-shadow: 0 5px 15px rgba(217, 4, 41, 0.3);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
 }
 
 .cta-button-main i {
@@ -251,7 +259,7 @@ main .section-padding {
     height: 300px;
     object-fit: cover;
     border-radius: 50%; 
-    border: 3px solid #D90429;
+    border: 3px solid #8B0000;
     flex-shrink: 0;
 }
 
@@ -278,8 +286,8 @@ main .section-padding {
 .servico-item {
     text-align: center;
     padding: 2rem;
-    background-color: #1f1f1f;
-    border: 1px solid #D90429;
+    background-color: #1a1a1a;
+    border: 1px solid #8B0000;
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -287,15 +295,15 @@ main .section-padding {
 
 .servico-item i {
     font-size: 3rem;
-    color: #D90429;
+    color: #8B0000;
     margin-bottom: 1rem;
     transition: transform 0.3s ease;
 }
 
 .servico-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 8px 20px rgba(217, 4, 41, 0.4);
-    border-color: #D90429;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.2);
+    border-color: #8B0000;
 }
 
 .servico-item:hover i {
@@ -328,10 +336,10 @@ main .section-padding {
 }
 
 .trabalho-item {
-    background-color: #1f1f1f;
+    background-color: #1a1a1a;
     padding: 2rem;
     border-radius: 10px;
-    border: 1px solid #D90429;
+    border: 1px solid #8B0000;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
     text-align: center;
@@ -340,7 +348,7 @@ main .section-padding {
 .trabalho-item h3 {
     font-size: 2rem;
     margin-bottom: 1.5rem;
-    color: #D90429;
+    color: #8B0000;
 }
 
 .trabalho-images {
@@ -357,14 +365,14 @@ main .section-padding {
     height: auto;
     object-fit: cover;
     border-radius: 8px;
-    border: 2px solid #D90429;
+    border: 2px solid #8B0000;
     transition: transform 0.3s ease;
 }
 
 .trabalho-item:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 20px rgba(217, 4, 41, 0.2);
-    border-color: #D90429;
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.2);
+    border-color: #8B0000;
 }
 
 .trabalho-images img:hover {
@@ -399,7 +407,6 @@ main .section-padding {
 .contato-card {
     background-color: rgba(31, 31, 31, 0.8);
 
-/* ===== Chat widget styles ===== */
 .whatsapp-float {
     position: fixed;
     right: 20px;
@@ -475,7 +482,6 @@ main .section-padding {
     .chat-body { max-height: 260px }
 }
 
-/* Small accessibility focus states */
 .chat-option-btn:focus, .chat-action-btn:focus, .chat-input-area button:focus, #whatsapp-float:focus { outline: 3px solid rgba(217,4,41,0.18); outline-offset: 2px; }
     backdrop-filter: blur(5px);
     padding: 3rem;
@@ -489,7 +495,7 @@ main .section-padding {
 
 .contato-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(217, 4, 41, 0.25);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.2);
 }
 
 .contato-item {
@@ -519,7 +525,7 @@ main .section-padding {
 }
 
 .contato-icon {
-    background-color: #D90429;
+    background-color: #8B0000;
     width: 50px;
     height: 50px;
     border-radius: 50%;
@@ -531,7 +537,7 @@ main .section-padding {
 }
 
 .contato-icon i {
-    color: #fff;
+    color: #121212;
     font-size: 1.5rem;
 }
 
@@ -562,14 +568,14 @@ main .section-padding {
 }
 
 .social-icons a:hover {
-    color: #D90429; 
+    color: #8B0000; 
 }
 
 footer {
     text-align: center;
     padding: 2rem;
-    background-color: #1f1f1f;
-    border-top: 1px solid #D90429;
+    background-color: #1a1a1a;
+    border-top: 1px solid #8B0000;
 }
 
 .whatsapp-float {
@@ -616,7 +622,7 @@ footer {
 }
 
 .chat-header {
-    background-color: #D90429;
+    background-color: #8B0000;
     color: #121212;
     padding: 15px;
     display: flex;
@@ -662,7 +668,7 @@ footer {
 }
 
 .user-message {
-    background-color: #D90429;
+    background-color: #8B0000;
     color: #fff;
     align-self: flex-end;
     border-bottom-right-radius: 2px;
@@ -679,8 +685,8 @@ footer {
 
 .chat-option-btn {
     background-color: transparent;
-    border: 1px solid #D90429;
-    color: #D90429;
+    border: 1px solid #8B0000;
+    color: #8B0000;
     padding: 8px 12px;
     border-radius: 8px;
     cursor: pointer;
@@ -691,7 +697,7 @@ footer {
 }
 
 .chat-option-btn:hover {
-    background-color: #D90429;
+    background-color: #8B0000;
     color: #fff;
     font-weight: bold;
 }
@@ -715,7 +721,7 @@ footer {
 }
 
 .chat-input-area button {
-    background-color: #D90429;
+    background-color: #8B0000;
     border: none;
     color: #fff;
     width: 40px;
@@ -737,9 +743,6 @@ footer {
 .typing-dots span:nth-child(2) { animation-delay: -0.16s; }
 @keyframes typing { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
 
-/* =========================================
-   RESPONSIVIDADE GERAL (TUDO AQUI)
-   ========================================= */
 @media (max-width: 768px) {
     h2 {
         font-size: 2.2rem;
@@ -813,8 +816,8 @@ footer {
 .oracoes-list { transition: all 0.5s ease; }
 
 .oracao-item { 
-    background: #1f1f1f; 
-    border: 1px solid #D90429; 
+    background: #1a1a1a; 
+    border: 1px solid #8B0000; 
     border-radius: 8px; 
     margin-bottom: 15px; 
     padding: 25px; 
@@ -825,8 +828,8 @@ footer {
 
 .oracao-item:hover { 
     transform: translateY(-5px); 
-    box-shadow: 0 8px 20px rgba(217, 4, 41, 0.25); 
-    border-color: #D90429;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.25); 
+    border-color: #8B0000;
 }
 
 .oracao-item h3 { 
@@ -847,7 +850,7 @@ footer {
     transition: color 0.3s;
 }
 
-.oracao-item:hover h3::after { color: #D90429; }
+.oracao-item:hover h3::after { color: #8B0000; }
 
 .oracao-content { 
     font-family: 'Roboto', sans-serif; 
@@ -876,9 +879,9 @@ footer {
 .oracoes-list.reading-mode .oracao-item.active h3 { 
     font-size: 2.2rem; 
     margin-bottom: 20px; 
-    border-bottom: 2px solid #D90429; 
+    border-bottom: 2px solid #8B0000; 
     padding-bottom: 10px; 
-    color: #D90429; 
+    color: #8B0000; 
 }
 
 .oracoes-list.reading-mode .oracao-item.active h3::after { display: none; }
@@ -904,9 +907,9 @@ footer {
 }
 
 #btn-voltar:hover { 
-    background-color: #D90429; 
+    background-color: #8B0000; 
     color: #121212;
-    border-color: #D90429; 
+    border-color: #8B0000; 
 }
 
 @keyframes slideUpFade {
@@ -945,3 +948,26 @@ footer {
     .nav-social { display: flex; order: 2; margin-left: auto; align-items: center; }
     .nav-social a { font-size: 1.2rem; margin-left: 10px; }
 }
+
+.card-gira {
+    background: linear-gradient(145deg, #1a1a1a, #222);
+    border: 1px solid #8B0000;
+    border-radius: 12px;
+    padding: 2rem;
+    text-align: center;
+    max-width: 400px;
+    margin: 2rem auto;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.card-gira h3 { color: #8B0000; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+.data-destaque { font-size: 3.5rem; font-weight: 700; color: #f5f5f5; line-height: 1; margin: 0.5rem 0; }
+.tipo-gira { font-size: 1.2rem; color: #8B0000; font-weight: 300; margin-bottom: 1rem; font-style: italic; }
+.card-gira small { display: block; color: #888; font-size: 0.9rem; margin-top: 1rem; border-top: 1px solid #333; padding-top: 1rem; }
+
+.btn-whatsapp-card {
+    display: inline-block; background: #25D366; color: #fff; padding: 10px 20px; 
+    border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 15px;
+    transition: transform 0.2s; box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+.btn-whatsapp-card:hover { transform: scale(1.05); background: #1ebc57; }

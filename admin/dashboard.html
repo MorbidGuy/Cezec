@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cezec - Dashboard Administrativo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .navbar {
+            background-color: #1a1a1a;
+            border-bottom: 2px solid #8B0000;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 {
+            color: #8B0000;
+            font-family: 'Cormorant', serif;
+            font-size: 24px;
+        }
+
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .navbar-user span {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .logout-btn {
+            background-color: #8B0000;
+            color: #e0e0e0;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: background-color 0.3s;
+        }
+
+        .logout-btn:hover {
+            background-color: #a60000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .dashboard-header {
+            margin-bottom: 3rem;
+        }
+
+        .dashboard-header h2 {
+            color: #8B0000;
+            font-family: 'Cormorant', serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .dashboard-header p {
+            color: #a0a0a0;
+            font-size: 14px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            border-left: 4px solid #8B0000;
+            padding: 1.5rem;
+            border-radius: 4px;
+        }
+
+        .stat-card h3 {
+            color: #a0a0a0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .stat-card .number {
+            color: #8B0000;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-card .change {
+            color: #66bb6a;
+            font-size: 12px;
+        }
+
+        .section {
+            background-color: #1a1a1a;
+            border: 1px solid #333;
+            padding: 2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .section h3 {
+            color: #8B0000;
+            font-family: 'Cormorant', serif;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #333;
+            padding-bottom: 1rem;
+        }
+
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .table th {
+            background-color: #242424;
+            color: #a0a0a0;
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #333;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .table td {
+            padding: 1rem;
+            border-bottom: 1px solid #333;
+        }
+
+        .table tr:hover {
+            background-color: #242424;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background-color: rgba(102, 187, 106, 0.2);
+            color: #66bb6a;
+        }
+
+        .status-pending {
+            background-color: rgba(255, 152, 0, 0.2);
+            color: #ffb74d;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid #333;
+            margin-top: 3rem;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .welcome-message {
+            background-color: #2a1515;
+            border-left: 4px solid #8B0000;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .welcome-message p {
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <h1>CEZEC Admin</h1>
+        <div class="navbar-user">
+            <span id="userDisplay">Bem-vindo, Administrador</span>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="dashboard-header">
+            <h2>Painel de Controle</h2>
+            <p>Gerenciar conteúdo e configurações do site</p>
+        </div>
+
+        <div class="welcome-message">
+            <p>✓ Acesso autenticado com sucesso. Você está no painel administrativo do site CEZEC.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Visitantes</h3>
+                <div class="number">1,847</div>
+                <div class="change">↑ 12% vs último mês</div>
+            </div>
+            <div class="stat-card">
+                <h3>Páginas Vistas</h3>
+                <div class="number">5,291</div>
+                <div class="change">↑ 8% vs último mês</div>
+            </div>
+            <div class="stat-card">
+                <h3>Taxa de Rejeição</h3>
+                <div class="number">32.4%</div>
+                <div class="change">↓ 2% vs último mês</div>
+            </div>
+            <div class="stat-card">
+                <h3>Tempo Médio</h3>
+                <div class="number">4m 23s</div>
+                <div class="change">↑ 0.5m vs último mês</div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>Páginas Publicadas</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Título</th>
+                        <th>Status</th>
+                        <th>Visualizações</th>
+                        <th>Data</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Página Inicial</td>
+                        <td><span class="status-badge status-active">Publicado</span></td>
+                        <td>2,341</td>
+                        <td>20 Jan 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Serviços</td>
+                        <td><span class="status-badge status-active">Publicado</span></td>
+                        <td>1,203</td>
+                        <td>15 Jan 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Trajetória</td>
+                        <td><span class="status-badge status-active">Publicado</span></td>
+                        <td>908</td>
+                        <td>10 Jan 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Orações</td>
+                        <td><span class="status-badge status-active">Publicado</span></td>
+                        <td>756</td>
+                        <td>05 Jan 2026</td>
+                    </tr>
+                    <tr>
+                        <td>Doações</td>
+                        <td><span class="status-badge status-pending">Em Análise</span></td>
+                        <td>83</td>
+                        <td>03 Mar 2026</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="section">
+            <h3>Últimas Atividades</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Ação</th>
+                        <th>Usuário</th>
+                        <th>Data/Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Página atualizada: Serviços</td>
+                        <td>admin</td>
+                        <td>04 Mar 2026 14:32</td>
+                    </tr>
+                    <tr>
+                        <td>Novo comentário em Trajetória</td>
+                        <td>visitante</td>
+                        <td>04 Mar 2026 10:15</td>
+                    </tr>
+                    <tr>
+                        <td>Configurações do site alteradas</td>
+                        <td>admin</td>
+                        <td>03 Mar 2026 16:47</td>
+                    </tr>
+                    <tr>
+                        <td>Backup realizado</td>
+                        <td>sistema</td>
+                        <td>02 Mar 2026 02:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="footer">
+        <p>CEZEC © 2025-2026 | Painel Administrativo | Todos os direitos reservados</p>
+    </div>
+
+    <script>
+        // Recuperar usuário do localStorage (se houver)
+        window.addEventListener('load', () => {
+            const username = localStorage.getItem('admin_user') || 'Administrador';
+            document.getElementById('userDisplay').textContent = `Bem-vindo, ${username}`;
+        });
+
+        function logout() {
+            localStorage.removeItem('admin_user');
+            window.location.href = '/admin/';
+        }
+    </script>
+</body>
+</html>

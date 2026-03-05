@@ -7,6 +7,7 @@
 const _consoleMsg = "🚫 Acesso negado.\nSem acesso ou privilégios para dar continuidade.";
 const _overlayMsg = "Acesso Negado: tentativa de atividades suspeitas detectada.";
 let _locked = false;
+let _intervals = [];
 
 // =============================
 // FUNÇÃO DE BLOQUEIO VISUAL
@@ -15,6 +16,9 @@ let _locked = false;
 function _deny(){
     if(_locked) return;
     _locked = true;
+    
+    // Parar verificações para economizar CPU após bloqueio
+    _intervals.forEach(i => clearInterval(i));
 
     const overlay = document.createElement("div");
     overlay.style.cssText = `
@@ -29,6 +33,7 @@ function _deny(){
         font-size:22px;
         text-align:center;
         z-index:999999;
+        pointer-events: all !important;
     `;
     overlay.innerText = _overlayMsg;
     document.body.appendChild(overlay);
@@ -120,18 +125,19 @@ document.addEventListener("keydown", function(e){
 // DETECTOR DEVTOOLS (tamanho)
 // =============================
 
-setInterval(function(){
+const idSize = setInterval(function(){
     if(window.outerWidth - window.innerWidth > 160 ||
        window.outerHeight - window.innerHeight > 160){
         _deny();
     }
 }, 1000);
+_intervals.push(idSize);
 
 // =============================
 // ANTI DEBUGGER (pausa)
 // =============================
 
-setInterval(function(){
+const idDebug = setInterval(function(){
     const start = performance.now();
     debugger;
     const end = performance.now();
@@ -140,6 +146,7 @@ setInterval(function(){
         _deny();
     }
 }, 1000);
+_intervals.push(idDebug);
 
 // =============================
 // DETECTOR DE CONSOLE
@@ -154,9 +161,10 @@ setInterval(function(){
         }
     });
 
-    setInterval(function(){
+    const idLog = setInterval(function(){
         console.log(element);
     }, 1000);
+    _intervals.push(idLog);
 })();
 
 })();
