@@ -27,11 +27,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (chatWidget) chatWidget.style.display = 'none'
     if (!openChatBtn) return
 
+    const config = {
+        WHATSAPP_URL: 'https://wa.me/5511958346854',
+        DONATIONS_URL: 'doacoes.html',
+        MAX_MESSAGES_IN_VIEW: 8,
+        MAX_CONTEXT_MESSAGES: 10, // Keeps AI context from growing too large
+        AI_TIMEOUT_MS: 8000, // 8 segundos de limite para IA
+    }
+
     let chatIsOpen = false
     const context = []
-    const MAX_MESSAGES = 6
     let inputLocked = false
-    const AI_TIMEOUT_MS = 8000 // 8 segundos de limite para IA
 
     const initialState = {
         text: 'Olá! Sou o assistente do Cezec. Escolha uma opção para eu te ajudar rapidamente:',
@@ -60,25 +66,23 @@ document.addEventListener('DOMContentLoaded', () => {
         return typingDiv
     }
 
+    const localBrainRules = [
+        { keywords: /^(oi|ol[aá]|bom dia|boa tarde|boa noite)/i, response: { text: 'Olá! Posso te informar sobre nossos serviços, agendamentos ou doações. Como posso ajudar?' } },
+        { keywords: /(servi[cç]os|o que fazem|trabalhos|buzios|banho|banhos)/i, response: { text: 'Oferecemos Jogo de Búzios, Banhos de Ervas e trabalhos espirituais. Deseja agendar ou saber preços?', options: ['Agendar', 'Preços', 'Voltar ao início'] } },
+        { keywords: /(agend|marcar|consulta|pre[cç]os)/i, response: { text: 'Para agendamentos, valores ou falar com um atendente, por favor entre em contato pelo WhatsApp. Deseja abrir agora?', actions: [{ label: 'Abrir WhatsApp', url: config.WHATSAPP_URL }] } },
+        { keywords: /(falar|atendente|humano|pessoa|zap|whatsapp)/i, response: { text: 'Para falar com um atendente, por favor entre em contato pelo WhatsApp. Deseja abrir agora?', actions: [{ label: 'Abrir WhatsApp', url: config.WHATSAPP_URL }] } },
+        { keywords: /(endere[cç]|local|onde|hor[aá]rio)/i, response: { text: 'Atualmente nosso atendimento é realizado principalmente via WhatsApp. Entre em contato por lá para mais detalhes.' } },
+        { keywords: /(doa|pix|doa[cç][ãa]o|contribui)/i, response: { text: 'Você pode fazer doações via PIX. Veja o QR Code em nossa página de doações.', options: ['Ver Página de Doações'] } },
+        { keywords: /(obrigad|valeu|gratid)/i, response: { text: 'Por nada! Fico feliz em ajudar. Se precisar de mais algo, é só chamar.' } },
+    ]
+
     const localBrain = (text) => {
         const t = (text || '').toLowerCase()
-        const kws = {
-            saudacao: /^(oi|ol[aá]|bom dia|boa tarde|boa noite)/i,
-            servicos: /(servi[cç]os|o que fazem|trabalhos|buzios|banho|banhos)/i,
-            agendar: /(agend|marcar|consulta)/i,
-            endereco: /(enderec|local|onde|hor[aá]rio)/i,
-            pix: /(doa|pix|doa[cç][ãa]o|contribui)/i,
-            obrigado: /(obrigad|valeu|gratid)/i,
-            humano: /(falar|atendente|humano|pessoa|zap|whatsapp)/i,
+        for (const rule of localBrainRules) {
+            if (rule.keywords.test(t)) {
+                return rule.response
+            }
         }
-
-        if (kws.saudacao.test(t)) return { text: 'Olá! Posso te informar sobre nossos serviços, agendamentos ou doações. Como posso ajudar?' }
-        if (kws.servicos.test(t)) return { text: 'Oferecemos Jogo de Búzios, Banhos de Ervas e trabalhos espirituais. Deseja agendar ou saber preços?' , options: ['Agendar', 'Preços', 'Voltar ao início'] }
-        if (kws.agendar.test(t) || kws.humano.test(t)) return { text: 'Para agendamentos ou falar com um atendente, por favor entre em contato pelo WhatsApp. Deseja abrir agora?' , actions: [{ label: 'Abrir WhatsApp', url: 'https://wa.me/5511958346854' }] }
-        if (kws.endereco.test(t)) return { text: 'Atualmente nosso atendimento é realizado principalmente via WhatsApp. Entre em contato por lá para mais detalhes.' }
-        if (kws.pix.test(t)) return { text: 'Você pode fazer doações via PIX. Veja o QR Code em nossa página de doações.' }
-        if (kws.obrigado.test(t)) return { text: 'Por nada — fico feliz em ajudar! Quer que eu abra o WhatsApp?' }
-
         return null
     }
 
@@ -92,7 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!proxy) return null
         try {
             const controller = new AbortController()
-            const id = setTimeout(() => controller.abort(), AI_TIMEOUT_MS)
+            const id = setTimeout(() => controller.abort(), config.AI_TIMEOUT_MS)
             
             const r = await fetch(proxy, { 
                 method: 'POST', 
@@ -137,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const hint = createMessageElement('Abrindo WhatsApp...', 'bot')
             chatBody.appendChild(hint)
             pruneMessages()
-            window.open('https://wa.me/5511958346854', '_blank')
+            window.open(config.WHATSAPP_URL, '_blank')
             setTimeout(() => {
                 clearConversation(true)
                 lockInput(false)
@@ -146,11 +150,11 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         // Doações -> abrir página de doações e limpar
-        if (low.includes('doa') || low.includes('pix') || low.includes('doações') || low.includes('doacoes')) {
+        if (low.includes('doa') || low.includes('pix') || low.includes('doações') || low.includes('doacoes') || low.includes('página de doações')) {
             const hint = createMessageElement('Abrindo página de doações...', 'bot')
             chatBody.appendChild(hint)
             pruneMessages()
-            window.open('doacoes.html', '_self')
+            window.open(config.DONATIONS_URL, '_self')
             setTimeout(() => clearConversation(true), 700)
             return
         }
@@ -161,7 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const pruneMessages = () => {
         const msgs = Array.from(chatBody.querySelectorAll('.chat-message'))
-        while (msgs.length > MAX_MESSAGES) {
+        while (msgs.length > config.MAX_MESSAGES_IN_VIEW) {
             const first = msgs.shift()
             if (first) first.remove()
         }
@@ -220,11 +224,18 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!text) return
         if (inputLocked) return
         lockInput(true)
+
         context.push({ role: 'user', content: text })
+        // Prune context to avoid it growing too large
+        if (context.length > config.MAX_CONTEXT_MESSAGES) {
+            // Remove the oldest user/assistant pair
+            context.splice(0, 2)
+        }
+
         const typing = showTypingIndicator()
         const reply = await getReply(text)
         if (typing && typing.parentNode) chatBody.removeChild(typing)
-        if (reply && reply.text) {
+        if (reply?.text) {
             context.push({ role: 'assistant', content: reply.text })
             renderBotResponse(reply)
         }

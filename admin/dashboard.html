@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cezec - Dashboard Administrativo</title>
+    <title>Cezec - Dashboard (Demonstração)</title>
     <style>
         * {
             margin: 0;
@@ -199,25 +199,36 @@
         .welcome-message p {
             color: #e0e0e0;
         }
+
+        .disclaimer-box {
+            background-color: #2a2a15;
+            border-left: 4px solid #b8860b;
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+        }
+
+        .disclaimer-box p {
+            color: #ffd700;
+        }
     </style>
 </head>
 <body>
     <div class="navbar">
         <h1>CEZEC Admin</h1>
         <div class="navbar-user">
-            <span id="userDisplay">Bem-vindo, Administrador</span>
-            <button class="logout-btn" onclick="logout()">Sair</button>
+            <span>Modo de Demonstração</span>
         </div>
     </div>
 
     <div class="container">
         <div class="dashboard-header">
-            <h2>Painel de Controle</h2>
-            <p>Gerenciar conteúdo e configurações do site</p>
+            <h2>Painel de Controle (Demonstração)</h2>
+            <p>Esta é uma visualização estática de como um painel administrativo poderia se parecer.</p>
         </div>
 
-        <div class="welcome-message">
-            <p>✓ Acesso autenticado com sucesso. Você está no painel administrativo do site CEZEC.</p>
+        <div class="disclaimer-box">
+            <p><strong>Atenção:</strong> Esta página é uma demonstração estática. Os dados exibidos são fictícios e não representam informações reais. Nenhuma das funcionalidades está ativa.</p>
         </div>
 
         <div class="stats-grid">
@@ -329,16 +340,5 @@
         <p>CEZEC © 2025-2026 | Painel Administrativo | Todos os direitos reservados</p>
     </div>
 
-    <script>
-        window.addEventListener('load', () => {
-            const username = localStorage.getItem('admin_user') || 'Administrador';
-            document.getElementById('userDisplay').textContent = `Bem-vindo, ${username}`;
-        });
-
-        function logout() {
-            localStorage.removeItem('admin_user');
-            window.location.href = '/admin/';
-        }
-    </script>
 </body>
 </html>
