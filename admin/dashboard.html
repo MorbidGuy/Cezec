@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cezec - Dashboard (Demonstração)</title>
+    <title>Cezec - Dashboard Administrativo</title>
     <style>
         * {
             margin: 0;
@@ -217,18 +217,19 @@
     <div class="navbar">
         <h1>CEZEC Admin</h1>
         <div class="navbar-user">
-            <span>Modo de Demonstração</span>
+            <span id="userDisplay">Bem-vindo, Admin</span>
+            <button class="logout-btn" onclick="logout()">Sair</button>
         </div>
     </div>
 
     <div class="container">
         <div class="dashboard-header">
-            <h2>Painel de Controle (Demonstração)</h2>
-            <p>Esta é uma visualização estática de como um painel administrativo poderia se parecer.</p>
+            <h2>Painel de Controle</h2>
+            <p>Gerenciar conteúdo e configurações do site</p>
         </div>
 
-        <div class="disclaimer-box">
-            <p><strong>Atenção:</strong> Esta página é uma demonstração estática. Os dados exibidos são fictícios e não representam informações reais. Nenhuma das funcionalidades está ativa.</p>
+        <div class="welcome-message">
+            <p>✓ Acesso autenticado com sucesso.</p>
         </div>
 
         <div class="stats-grid">
@@ -340,5 +341,16 @@
         <p>CEZEC © 2025-2026 | Painel Administrativo | Todos os direitos reservados</p>
     </div>
 
+    <script>
+        // Proteção: Se não tiver o token de login, chuta para fora
+        if (localStorage.getItem('admin_logged_in') !== 'true') {
+            window.location.href = 'index.html';
+        }
+
+        function logout() {
+            localStorage.removeItem('admin_logged_in');
+            window.location.href = 'index.html';
+        }
+    </script>
 </body>
 </html>

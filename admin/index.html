@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cezec - Demonstração do Painel</title>
+    <title>Cezec - Acesso Administrativo</title>
     <style>
         * {
             margin: 0;
@@ -177,24 +177,21 @@
     <div class="login-container">
         <div class="logo-section">
             <h1>CEZEC</h1>
-            <p>Demonstração do Painel de Administração</p>
+            <p>Painel de Administração</p>
         </div>
 
-        <div class="disclaimer">
-            <p><strong>Atenção:</strong> Esta é uma página de demonstração estática. O formulário abaixo não é funcional e não realiza autenticação.</p>
-        </div>
+        <div class="error-message" id="errorMsg"></div>
 
-        <form id="loginForm" onsubmit="return false;">
+        <form id="loginForm" onsubmit="handleLogin(event)">
             <div class="form-group">
-                <label for="username">Usuário (Exemplo)</label>
+                <label for="username">Usuário</label>
                 <input 
                     type="text" 
                     id="username" 
                     name="username" 
                     placeholder="Digite seu usuário"
                     required
-                    autocomplete="off"
-                    disabled
+                    autocomplete="username"
                 >
             </div>
 
@@ -206,26 +203,61 @@
                     name="password" 
                     placeholder="Digite sua senha"
                     required
-                    autocomplete="off"
-                    disabled
+                    autocomplete="current-password"
                 >
             </div>
 
             <div class="remember-forgot">
                 <label style="margin-bottom: 0; font-weight: normal;">
-                    <input type="checkbox" name="remember" disabled> Lembrar-me
+                    <input type="checkbox" name="remember"> Lembrar-me
                 </label>
                 <a href="#">Esqueceu a senha?</a>
             </div>
 
-            <a href="/admin/dashboard.html" class="login-btn" style="text-align: center; text-decoration: none; display: block;">
-                Ver Demonstração do Painel
-            </a>
+            <button type="submit" class="login-btn">
+                <span class="loading" id="spinner"></span>
+                <span id="btnText">Entrar</span>
+            </button>
         </form>
 
         <div class="footer-text">
             <p>Seguro e protegido por SSL</p>
         </div>
     </div>
+
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const btnText = document.getElementById('btnText');
+            const spinner = document.getElementById('spinner');
+
+            // Limpa mensagens anteriores
+            errorMsg.classList.remove('show');
+            
+            // Feedback visual
+            spinner.classList.add('show');
+            btnText.textContent = 'Verificando...';
+
+            // Pequeno delay para simular verificação
+            setTimeout(() => {
+                if (username === 'Admin' && password === 'passwd') {
+                    // Sucesso: Salva token simples e redireciona
+                    localStorage.setItem('admin_logged_in', 'true');
+                    localStorage.setItem('admin_user', username);
+                    window.location.href = 'dashboard.html';
+                } else {
+                    // Erro
+                    spinner.classList.remove('show');
+                    btnText.textContent = 'Entrar';
+                    errorMsg.textContent = 'Usuário ou senha incorretos.';
+                    errorMsg.classList.add('show');
+                }
+            }, 800);
+        }
+    </script>
 </body>
 </html>
