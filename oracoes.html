@@ -6,42 +6,111 @@
     <title>Orações - Cezéc</title>
     <link rel="shortcut icon" href="img/logo.jpeg" type="image/jpeg">
     
-    <link rel="stylesheet" href="./style.css">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self' https:; script-src 'self' https://www.googletagmanager.com https://www.google-analytics.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; img-src 'self' data: https:; connect-src 'self' https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'self';">
-    <meta name="referrer" content="strict-origin-when-cross-origin">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; script-src 'self' 'unsafe-inline';">
     <meta http-equiv="X-Content-Type-Options" content="nosniff">
-    <meta http-equiv="X-Frame-Options" content="SAMEORIGIN">
+    <meta name="referrer" content="strict-origin-when-cross-origin">
+
+    <link rel="stylesheet" href="style.css">
     <meta name="description" content="Coletânea de orações e preces da Casa Espiritual Zé Corisco. Oração da Noite, Ogum, São Cipriano, Xangô e mais.">
-    <meta name="keywords" content="Cezec, Cezéc, Orações, Preces, Casa Espiritual Zé Corisco, Espiritualidade, Ogum, Xangô">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant:wght@400;700&family=Roboto:wght@300;400&display=swap" rel="stylesheet">
-        <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17954014213"></script>
-        <script src="js/gtag-config.js"></script>
+    <style>
+        html { scroll-behavior: smooth; }
+        .nav-menu li a.active { font-weight: 700; border-bottom: 1px solid currentColor; padding-bottom: 2px; }
+        body { 
+            -webkit-font-smoothing: antialiased; 
+            background: linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('img/bate_cabeça.jpeg') no-repeat center center/cover;
+            background-attachment: fixed;
+            color: #e0e0e0;
+        }
+        
+        .oracoes-list { transition: all 0.5s ease; }
+        
+        .oracao-item { 
+            background: #1f1f1f; 
+            border: 1px solid #D9042930; 
+            border-radius: 8px; 
+            margin-bottom: 15px; 
+            padding: 25px; 
+            cursor: pointer; 
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            position: relative;
+        }
+
+        .oracao-item:hover { 
+            transform: translateY(-5px); 
+            box-shadow: 0 8px 20px rgba(217, 4, 41, 0.25); 
+            border-color: #D90429;
+        }
+
+        .oracao-item h3 { 
+            color: #e0e0e0; 
+            margin: 0; 
+            font-family: 'Cormorant', serif; 
+            font-size: 1.5rem; 
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .oracao-item h3::after {
+            content: '\f061'; 
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            font-size: 1rem;
+            color: #888;
+            transition: color 0.3s;
+        }
+
+        .oracao-item:hover h3::after { color: #D90429; }
+
+        .oracao-content { 
+            font-family: 'Roboto', sans-serif; 
+            line-height: 1.8; 
+            color: #c0c0c0; 
+            white-space: pre-line; 
+            background-color: #1a1a1a; 
+            padding: 20px; 
+            border-radius: 8px; 
+            margin-top: 20px; 
+            display: none; 
+            opacity: 0;
+        }
+
+        .oracoes-list.reading-mode .oracao-item:not(.active) { display: none; }
+        
+        .oracoes-list.reading-mode .oracao-item.active { cursor: default; transform: none; box-shadow: none; border: none; background: transparent; padding: 0; }
+        .oracoes-list.reading-mode .oracao-item.active h3 { font-size: 2.2rem; margin-bottom: 20px; border-bottom: 2px solid #D90429; padding-bottom: 10px; color: #D90429; }
+        .oracoes-list.reading-mode .oracao-item.active h3::after { display: none; }
+        .oracoes-list.reading-mode .oracao-item.active .oracao-content { display: block; animation: slideUpFade 0.8s ease forwards; }
+
+        #btn-voltar { display: none; background-color: transparent; color: #e0e0e0; border: 1px solid #888; padding: 8px 20px; border-radius: 20px; cursor: pointer; font-family: 'Roboto', sans-serif; font-size: 0.9rem; margin-bottom: 20px; transition: all 0.3s ease; align-items: center; gap: 8px; }
+        #btn-voltar:hover { background-color: #D90429; color: #121212; border-color: #D90429; }
+
+        @keyframes slideUpFade {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
 </head>
-<body class="oracoes-bg">
+<body>
 
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">Cezéc</a>
-            <div class="hamburger">
-                <span class="bar"></span>
-                <span class="bar"></span>
-                <span class="bar"></span>
-            </div>
             <ul class="nav-menu">
                 <li><a href="trajetoria.html">Trajetória</a></li>
                 <li><a href="atendimentos.html">Atendimentos</a></li>
                 <li><a href="trabalhos.html">Trabalhos</a></li>
                 <li><a href="oracoes.html">Orações</a></li>
-                <li><a href="doacoes.html">Doações</a></li>
                 <li><a href="contato.html">Contato</a></li>
             </ul>
             <div class="nav-social">
-                <a href="https://www.instagram.com/cezecoficial/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" rel="noopener noreferrer" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
-                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" rel="noopener noreferrer" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
+                <a href="https://www.instagram.com/cezecoficial/" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.tiktok.com/@cezecoficiall?_r=1&_t=ZS-93SSWR9Z7ea" target="_blank" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://api.whatsapp.com/send?phone=+5511958346854&text=Olá! Gostaria de mais informações." target="_blank" aria-label="WhatsApp"><i class="fab fa-whatsapp"></i></a>
             </div>
         </nav>
     </header>
@@ -262,27 +331,41 @@ Salve o Mistério Tranca - Ruas! 🎩🖤❤️</div>
     <button id="chat-toggle" class="whatsapp-float" aria-label="Abrir chat"><i class="fab fa-whatsapp"></i></button>
     <footer>
         <p>&copy; 2026 Cezéc - Casa Espiritual Zé Corisco. Todos os direitos reservados.<br>
-        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
+        <small style="opacity: 0.7;">Dev: <a href="https://github.com/MorbidGuy" target="_blank" style="color: inherit; text-decoration: none;">João V. Reis (Kirashi_Natsu/MorbidGuy)</a></small></p>
     </footer>
     <script src="chat.js"></script>
-    <script src="chat.js"></script>
-    <script src="security.js"></script>
     <script src="js/main.js" defer></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const listContainer = document.querySelector('.oracoes-list');
+            const backBtn = document.getElementById('btn-voltar');
+
+            if (listContainer && backBtn) {
+                listContainer.addEventListener('click', function(e) {
+                    const item = e.target.closest('.oracao-item');
+                    if (!item) return;
+                    
+                    listContainer.classList.add('reading-mode');
+                    
+                    const items = listContainer.querySelectorAll('.oracao-item');
+                    items.forEach(i => i.classList.remove('active'));
+                    
+                    item.classList.add('active');
+                    backBtn.style.display = 'inline-flex';
+
+                    // Scroll suave para o topo do item para facilitar a leitura
+                    setTimeout(() => {
+                        item.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
                 });
-            });
 
-            backBtn.addEventListener('click', function() {
-                listContainer.classList.remove('reading-mode');
-                items.forEach(item => item.classList.remove('active'));
-                this.style.display = 'none';
-            });
-
-            const hamburger = document.querySelector(".hamburger");
-            const navMenu = document.querySelector(".nav-menu");
-            hamburger.addEventListener("click", () => {
-                hamburger.classList.toggle("active");
-                navMenu.classList.toggle("active");
-            });
+                backBtn.addEventListener('click', function() {
+                    listContainer.classList.remove('reading-mode');
+                    const items = listContainer.querySelectorAll('.oracao-item');
+                    items.forEach(item => item.classList.remove('active'));
+                    backBtn.style.display = 'none';
+                });
+            }
         });
     </script>
 </body>

@@ -123,40 +123,49 @@ document.addEventListener('DOMContentLoaded', () => {
         return { text: 'Desculpe, não entendi. Posso te mostrar as opções principais novamente?', options: ['Nossos Serviços', 'Falar com atendente', 'Voltar ao início'] }
     }
 
+    const optionActions = [
+        {
+            keywords: ['voltar'],
+            action: () => {
+                chatBody.innerHTML = '';
+                context.length = 0; // Limpa o contexto para não confundir a IA
+                setTimeout(() => renderBotResponse(initialState), 120);
+            }
+        },
+        {
+            keywords: ['agendar', 'whatsapp', 'falar', 'atendente', 'abrir'],
+            action: () => {
+                lockInput(true);
+                const hint = createMessageElement('Abrindo WhatsApp...', 'bot');
+                chatBody.appendChild(hint);
+                pruneMessages();
+                window.open(config.WHATSAPP_URL, '_blank');
+                setTimeout(() => {
+                    clearConversation(true);
+                    lockInput(false);
+                }, 900);
+            }
+        },
+        {
+            keywords: ['doa', 'pix', 'doações', 'doacoes', 'página de doações'],
+            action: () => {
+                const hint = createMessageElement('Abrindo página de doações...', 'bot');
+                chatBody.appendChild(hint);
+                pruneMessages();
+                window.open(config.DONATIONS_URL, '_self');
+                setTimeout(() => clearConversation(true), 700);
+            }
+        }
+    ];
+
     const processOption = async (opt) => {
-        const low = (opt || '').toLowerCase()
+        const low = (opt || '').toLowerCase();
 
-        // Voltar ao início -> mostra novamente o menu inicial
-        if (low.includes('voltar')) {
-            chatBody.innerHTML = ''
-            // Limpa o contexto para não confundir a IA
-            context.length = 0 
-            setTimeout(() => renderBotResponse(initialState), 120)
-            return
-        }
-
-        // Ações relacionadas a agendamento / whatsapp -> abrir e limpar
-        if (low.includes('agendar') || low.includes('whatsapp') || low.includes('falar') || low.includes('atendente') || low.includes('abrir')) {
-            lockInput(true)
-            const hint = createMessageElement('Abrindo WhatsApp...', 'bot')
-            chatBody.appendChild(hint)
-            pruneMessages()
-            window.open(config.WHATSAPP_URL, '_blank')
-            setTimeout(() => {
-                clearConversation(true)
-                lockInput(false)
-            }, 900)
-            return
-        }
-
-        // Doações -> abrir página de doações e limpar
-        if (low.includes('doa') || low.includes('pix') || low.includes('doações') || low.includes('doacoes') || low.includes('página de doações')) {
-            const hint = createMessageElement('Abrindo página de doações...', 'bot')
-            chatBody.appendChild(hint)
-            pruneMessages()
-            window.open(config.DONATIONS_URL, '_self')
-            setTimeout(() => clearConversation(true), 700)
-            return
+        for (const rule of optionActions) {
+            if (rule.keywords.some(kw => low.includes(kw))) {
+                rule.action();
+                return;
+            }
         }
 
         // Caso padrão: envie para o fluxo (pode acionar localBrain ou proxy)

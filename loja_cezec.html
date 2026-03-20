@@ -21,117 +21,17 @@
         <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17954014213"></script>
         <script src="js/gtag-config.js"></script>
 
-    <style>
-        .loja-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 40px;
-        }
-
-        .loja-card {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 300px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .loja-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-        }
-
-        .loja-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 3px solid #d4af37;
-        }
-
-        .loja-header {
-            background-color: #1a1a1a;
-            color: #fff;
-            padding: 20px;
-            text-align: center;
-            font-family: 'Cormorant', serif;
-            font-size: 1.4rem;
-            font-weight: bold;
-            border-bottom: 3px solid #d4af37;
-        }
-
-        .loja-body {
-            padding: 25px;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-
-        .loja-price {
-            font-size: 1.8rem;
-            color: #2e7d32;
-            font-weight: bold;
-            margin: 15px 0;
-            font-family: 'Cormorant', serif;
-        }
-
-        .loja-desc {
-            font-size: 1rem;
-            color: #555;
-            margin-bottom: 15px;
-            line-height: 1.5;
-        }
-
-        .loja-note {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 20px;
-            font-style: italic;
-            background: #f9f9f9;
-            padding: 10px;
-            border-radius: 5px;
-            width: 100%;
-        }
-
-        .btn-whatsapp-buy {
-            background-color: #25D366;
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.2s;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            text-decoration: none;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .btn-whatsapp-buy:hover {
-            background-color: #128C7E;
-            transform: scale(1.05);
-        }
-    </style>
 </head>
 <body>
 
     <header>
         <nav class="navbar">
             <a href="index.html" class="logo">Cezéc</a>
-            <div class="hamburger">
+            <button class="hamburger" aria-label="Abrir menu de navegação" aria-expanded="false">
                 <span class="bar"></span>
                 <span class="bar"></span>
                 <span class="bar"></span>
-            </div>
+            </button>
             <ul class="nav-menu">
                 <li><a href="trajetoria.html">Trajetória</a></li>
                 <li><a href="atendimentos.html">Atendimentos</a></li>
@@ -224,19 +124,7 @@
     </footer>
 
     <script src="chat.js"></script>
-    <script src="security.js"></script>
     <script src="js/main.js" defer></script>
-    <script>
-        function comprar(produto, valor) {
-            const numeroWhatsapp = "5511958346854";
-            const mensagem = `Olá! Gostaria de adquirir o item: *${produto}* (Valor: ${valor}).\n\n` +
-                             `Estou ciente de que o item passa por cruzamento de energia e não há envio físico tradicional.\n\n` +
-                             `Segue abaixo o meu comprovante de pagamento:`;
-            const url = `https://wa.me/${numeroWhatsapp}?text=${encodeURIComponent(mensagem)}`;
-            const w = window.open(url, '_blank');
-            try { if (w) w.opener = null; } catch(e){}
-        }
-    </script>
 
 </body>
 </html>
