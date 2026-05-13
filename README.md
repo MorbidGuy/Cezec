@@ -432,4 +432,4 @@ O `chat.js` detecta automaticamente essa configuração e encaminhará mensagens
 
 ---
 
-Se quiser, eu posso gerar o proxy completo, preparar um deploy serverless (Vercel/Cloudflare Workers) ou ajustar o comportamento do assistente para um tom mais formal ou coloquial. Diga qual opção prefere.
+
